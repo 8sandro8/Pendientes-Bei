@@ -8,15 +8,12 @@
       "dbaeumer.vscode-eslint" # Linter para Javascript
     ];
 
-    # Comandos que se ejecutan al crear y al iniciar el workspace
+    # Comandos que se ejecutan al crear el workspace
     workspace = {
       # Se ejecuta solo la primera vez que se crea el entorno
       onCreate = {
-        npm-install = "npm install";
-      };
-      # Se ejecuta cada vez que se (re)inicia el workspace
-      onStart = {
-        dev-server = "npm run dev";
+        # Instala las dependencias de npm desde la carpeta 'backend'
+        npm-install = "cd backend && npm install";
       };
     };
 
@@ -25,7 +22,8 @@
       enable = true;
       previews = {
         web = {
-          command = ["npm", "run", "dev"];
+          # Ejecuta el servidor de desarrollo desde la carpeta 'backend'
+          command = ["sh", "-c", "cd backend && npm run dev -- --port $PORT"];
           manager = "web";
         };
       };

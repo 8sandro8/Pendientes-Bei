@@ -5,8 +5,8 @@ const app = express();
 
 const dbPath = path.join(__dirname, 'db.json');
 
-// Sirve archivos estáticos desde la carpeta 'public'
-app.use(express.static('public'));
+// Sirve archivos estáticos desde la carpeta '../frontend'
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Endpoint de la API para obtener todos los pendientes
 app.get('/api/pendientes', async (req, res) => {
@@ -19,7 +19,9 @@ app.get('/api/pendientes', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const portArgIndex = process.argv.indexOf('--port');
+const PORT = portArgIndex !== -1 ? process.argv[portArgIndex + 1] : process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
