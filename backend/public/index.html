@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Catálogo exclusivo de pendientes hechos a mano. Diseños únicos para ti.">
+  <title>Pendientes Bei | Colección Exclusiva</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Iconos (FontAwesome Free CDN) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <div><!-- Spacer lefter --></div>
+    <div class="header-content">
+      <h1>Pendientes Bei</h1>
+      <p>Artesanía & Elegancia</p>
+    </div>
+    <!-- Botón discreto para Admin -->
+    <button id="admin-btn" onclick="openLoginModal()"><i class="fa-solid fa-lock"></i></button>
+    <button id="logout-btn" onclick="logout()" style="display:none;" class="btn-icon"><i
+        class="fa-solid fa-right-from-bracket"></i></button>
+  </header>
+
+  <main>
+    <!-- Controles de Admin (Añadir nuevo) -->
+    <div id="admin-controls" class="admin-controls-main">
+      <button class="btn-add" onclick="openProductModal()">
+        <i class="fa-solid fa-plus"></i> Nuevo Pendiente
+      </button>
+    </div>
+
+    <section id="pendientes-container" class="grid-container">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Cargando colección...</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Pendientes Bei. Hecho con ❤️.</p>
+  </footer>
+
+  <!-- MODAL: LOGIN -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('login-modal')">&times;</span>
+      <h2>Acceso Admin</h2>
+      <form id="login-form">
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" id="admin-password" placeholder="••••••" required>
+        </div>
+        <button type="submit" class="btn-submit">Entrar</button>
+        <p id="login-error" class="error-msg" style="margin-top:10px; font-size: 0.9rem;"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: PRODUCTO (Añadir / Editar) -->
+  <div id="product-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('product-modal')">&times;</span>
+      <h2 id="modal-title">Nuevo Pendiente</h2>
+
+      <form id="product-form">
+        <input type="hidden" id="prod-id">
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" id="prod-name" required>
+        </div>
+
+        <div class="form-group">
+          <label>Precio (€)</label>
+          <input type="number" id="prod-price" step="0.01" required>
+        </div>
+
+        <div class="form-group">
+          <label>Stock (Cantidad)</label>
+          <input type="number" id="prod-stock" value="1" min="0">
+        </div>
+
+        <div class="form-group">
+          <label>Reservado para (Opcional)</label>
+          <input type="text" id="prod-buyer" placeholder="Nombre de la clienta">
+        </div>
+
+        <div class="form-group">
+          <label>Imagen</label>
+          <input type="file" id="prod-image" accept="image/*">
+          <div id="image-preview" style="margin-top: 10px; max-height: 100px; overflow: hidden;"></div>
+        </div>
+
+        <button type="submit" class="btn-submit">Guardar</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js?v=2"></script>
+</body>
+
+</html>
