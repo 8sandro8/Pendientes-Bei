@@ -80,14 +80,15 @@ function getTransporter() {
   });
 }
 
-async function sendEmailNotification(subject, text) {
+async function sendEmailNotification(subject, text, toAddress = null) {
   const user = process.env.EMAIL_USER || 'harmonyyclay@gmail.com';
+  const recipient = toAddress || user; // Default to admin if no address provided
 
-  logToFile(`Attempting to send email: ${subject}`);
+  logToFile(`Attempting to send email to ${recipient}: ${subject}`);
 
   const mailOptions = {
     from: user,
-    to: user, // Send to self (admin)
+    to: recipient,
     subject: subject,
     text: text
   };
@@ -96,10 +97,11 @@ async function sendEmailNotification(subject, text) {
     const transporter = getTransporter();
     const info = await transporter.sendMail(mailOptions);
     logToFile(`EMAIL SENT SUCCESS: ${info.messageId}`);
-    console.log('[EMAIL SENT] Message ID: ' + info.messageId);
+    return true;
   } catch (error) {
     logToFile(`EMAIL ERROR: ${error.message}`);
     console.error('[EMAIL ERROR]', error);
+    return false;
   }
 }
 
@@ -334,8 +336,15 @@ app.post('/api/orders', async (req, res) => {
     await writeJSON(ORDERS_FILE, orders);
 
     // Send Email (Async)
-    const emailBody = `Nuevo pedido de ${customer.nombre}!\nTotal: ${newOrder.total}€\nVer en panel de admin.`;
-    sendEmailNotification('Nuevo Pedido - Harmony Clay', emailBody);
+    // Send Email to Admin
+    const emailBodyAdmin = `Nuevo pedido de ${customer.nombre}!\nTotal: ${newOrder.total}€\nVer en panel de admin.`;
+    sendEmailNotification('Nuevo Pedido - Harmony Clay', emailBodyAdmin);
+
+    // Send Email to Client
+    if (customer.email) {
+      const emailBodyClient = `¡Hola ${customer.nombre}!\n\nHemos recibido tu pedido en Harmony Clay.\n\nResumen:\n${items.map(i => `- ${i.nombre} (${i.qty}x) - ${i.precio}€`).join('\n')}\n\nTotal: ${newOrder.total}€\n\nNos pondremos en contacto contigo pronto cuando el pedido esté listo o enviado.\n\nGracias,\nEl equipo de Harmony Clay`;
+      sendEmailNotification('Confirmación de Pedido - Harmony Clay', emailBodyClient, customer.email);
+    }
 
     res.json(newOrder);
   } catch (err) {
@@ -501,6 +510,43 @@ app.get('*', (req, res) => {
       res.status(500).send('Error loading frontend');
     }
   });
+});
+
+// TEST EMAIL ROUTE
+app.post('/api/test-email', verifyToken, async (req, res) => {
+  try {
+    const user = process.env.EMAIL_USER;
+    const pass = process.env.EMAIL_PASS;
+
+    if (!user || !pass) {
+      return res.status(400).json({ message: 'Credenciales de correo no configuradas en .env' });
+    }
+
+    const transporter = getTransporter();
+
+    // Verify connection configuration
+    await transporter.verify();
+
+    // Send Test
+    const info = await transporter.sendMail({
+      from: user,
+      to: user, // Send to self
+      subject: 'Test Email - Harmony Clay',
+      text: 'Si lees esto, el correo funciona perfectamente. ¡Enhorabuena!'
+    });
+
+    logToFile(`TEST EMAIL SUCCESS: ${info.messageId}`);
+    res.json({ message: 'Correo enviado con éxito', info });
+
+  } catch (error) {
+    logToFile(`TEST EMAIL ERROR: ${error.message}`);
+    console.error('Test Email Error:', error);
+    res.status(500).json({
+      message: 'Error al enviar correo',
+      error: error.message,
+      stack: error.stack
+    });
+  }
 });
 
 // START SERVER

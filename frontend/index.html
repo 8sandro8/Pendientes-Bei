@@ -45,6 +45,17 @@
       <button class="btn-admin-action btn-backup" onclick="downloadBackup()">
         <i class="fa-solid fa-download"></i> Backup
       </button>
+      <button class="btn-admin-action btn-test-email" onclick="testEmailNotification()"
+        style="background-color: var(--secondary-color);">
+        <i class="fa-solid fa-envelope"></i> Test Email
+      </button>
+    </div>
+
+    <!-- SPECTACULAR SEARCH BAR -->
+    <div class="search-container" style="text-align: center; margin-bottom: 20px;">
+      <input type="search" id="search-input" placeholder="🔍 ¿Qué estás buscando hoy?"
+        oninput="searchProducts(this.value)"
+        style="width: 100%; max-width: 500px; padding: 12px 20px; border-radius: 50px; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.1); font-size: 1.1rem; outline: none; transition: transform 0.2s;">
     </div>
 
     <!-- Filter Buttons -->
@@ -143,6 +154,12 @@
           <input type="text" id="prod-buyer" placeholder="Nombre clienta (Opcional)">
         </div>
 
+        <div class="form-group">
+          <label for="prod-desc">Descripción</label>
+          <textarea id="prod-desc" rows="3" placeholder="Detalles del producto (materiales, tamaño...)"
+            style="width:100%; padding:10px; border:2px solid #f0f0f0; border-radius:12px; font-family:inherit;"></textarea>
+        </div>
+
         <!-- New Fields -->
         <div class="form-group">
           <label for="prod-colors">Colores (separados por coma)</label>
@@ -181,12 +198,10 @@
           <div id="detail-colors" style="margin-bottom:1rem; display:none;"></div>
           <!-- Keep for backward compat if needed or remove -->
 
-          <!-- NEW COLOR SELECT -->
-          <div id="detail-color-container" style="margin-bottom:1rem; display:none;">
-            <label for="detail-color-select"
-              style="display:block; font-size:0.9rem; color:#666; margin-bottom:5px;">Elige tu color:</label>
-            <select id="detail-color-select"
-              style="padding:8px; width:100%; border:1px solid #ddd; border-radius:6px; font-family:inherit;">
+          <!-- NEW COLOR SELECT (Disabled to avoid ID conflict with main one in info section) -->
+          <div id="detail-color-container-legacy" style="margin-bottom:1rem; display:none;">
+            <label style="display:block; font-size:0.9rem; color:#666; margin-bottom:5px;">Elige tu color:</label>
+            <select style="padding:8px; width:100%; border:1px solid #ddd; border-radius:6px; font-family:inherit;">
               <!-- Options injected by JS -->
             </select>
           </div>
@@ -221,6 +236,15 @@
           <button id="detail-add-btn" class="btn-submit" style="margin-top: 1rem;">
             <i class="fa-solid fa-cart-shopping"></i> Añadir a la Cesta
           </button>
+        </div>
+      </div>
+
+      <!-- Related Products Section -->
+      <div id="related-products-section" style="margin-top:2rem; padding-top:2rem; border-top:1px solid #eee;">
+        <h3 style="margin-bottom:1rem; font-size:1.2rem; color:#333; text-align:center;">También te puede gustar...</h3>
+        <div id="related-products-list"
+          style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap; padding-bottom:10px;">
+          <!-- Related Items Injected Here -->
         </div>
       </div>
 
@@ -363,7 +387,7 @@
   <!-- Toast Notification Container -->
   <div id="toast-container"></div>
 
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=5"></script>
 </body>
 
 </html>

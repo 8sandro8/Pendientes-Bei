@@ -50,7 +50,7 @@
     "id": 1771105483736,
     "nombre": "herghg",
     "precio": 7,
-    "stock": 2,
+    "stock": 1,
     "categoria": "Otros",
     "comprador": "",
     "colors": [
@@ -66,7 +66,7 @@
     "id": 1771167135845,
     "nombre": "charms",
     "precio": 2,
-    "stock": 10,
+    "stock": 9,
     "categoria": "Charms",
     "comprador": "",
     "colors": [],

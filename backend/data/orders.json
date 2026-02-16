@@ -30,5 +30,31 @@
     },
     "status": "Pendiente",
     "total": 19
+  },
+  {
+    "id": "1771232110630",
+    "date": "2026-02-16T08:55:10.630Z",
+    "items": [
+      {
+        "id": "1771167135845",
+        "qty": 1,
+        "nombre": "charms",
+        "precio": 2
+      },
+      {
+        "id": "1771105483736",
+        "qty": 1,
+        "nombre": "herghg",
+        "precio": 7
+      }
+    ],
+    "customer": {
+      "nombre": "sandro",
+      "apellidos": "lopez",
+      "email": "sandro88zgz@gmail.com",
+      "telefono": "647749739"
+    },
+    "status": "Preparación",
+    "total": 9
   }
 ]
