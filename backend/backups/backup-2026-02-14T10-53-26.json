@@ -1,0 +1,135 @@
+{
+  "timestamp": "2026-02-14T10:53:26.175Z",
+  "products": [
+    {
+      "id": 1,
+      "nombre": "Pendientes de Aro Dorados",
+      "precio": 15.99,
+      "stock": 7,
+      "imagen": "/images/1771065393758-286459989.jpg",
+      "categoria": "Otros",
+      "comprador": ""
+    },
+    {
+      "id": 2,
+      "nombre": "Pendientes de Perla",
+      "precio": 15,
+      "stock": null,
+      "imagen": "/images/perla.jpg",
+      "comprador": "",
+      "categoria": "Otros"
+    },
+    {
+      "nombre": "Margaritas",
+      "precio": 7,
+      "stock": 1,
+      "categoria": "De Diario",
+      "comprador": "",
+      "imagen": "/images/1771064720916-766826731.jpg",
+      "id": "1771064722405"
+    },
+    {
+      "nombre": "Pentaflowers",
+      "precio": 7,
+      "stock": 5,
+      "categoria": "De Diario",
+      "comprador": "",
+      "imagen": "/images/1771065674683-464948043.jpg",
+      "id": "1771065675993"
+    },
+    {
+      "nombre": "Mariposa",
+      "precio": 10,
+      "stock": 5,
+      "categoria": "Elegantes",
+      "comprador": "",
+      "imagen": "/images/1771065831792-452535619.jpg",
+      "id": "1771065835822"
+    }
+  ],
+  "orders": [
+    {
+      "id": "1771064109270",
+      "date": "2026-02-14T10:15:09.271Z",
+      "customer": {
+        "nombre": "Test User",
+        "email": "test@example.com",
+        "apellidos": "Test"
+      },
+      "items": [
+        {
+          "id": 1,
+          "nombre": "Pendientes de Aro Dorados",
+          "precio": 15.99,
+          "qty": 1
+        }
+      ],
+      "total": 15.99,
+      "status": "enviado"
+    },
+    {
+      "id": "1771064327143",
+      "date": "2026-02-14T10:18:47.144Z",
+      "customer": {
+        "nombre": "beatriz",
+        "apellidos": "cuartero",
+        "email": "beatrizcuartero15@gmail.com"
+      },
+      "items": [
+        {
+          "id": 1,
+          "nombre": "Pendientes de Aro Dorados",
+          "precio": 15.99,
+          "qty": 1
+        },
+        {
+          "id": 2,
+          "nombre": "Pendientes de Perla",
+          "precio": 15,
+          "qty": 1
+        }
+      ],
+      "total": 30.990000000000002,
+      "status": "enviado"
+    },
+    {
+      "id": "1771064612667",
+      "date": "2026-02-14T10:23:32.667Z",
+      "customer": {
+        "nombre": "Test User Phone",
+        "email": "test@phone.com",
+        "apellidos": "Test",
+        "telefono": "123456789"
+      },
+      "items": [
+        {
+          "id": 1,
+          "nombre": "Pendientes de Aro Dorados",
+          "precio": 15.99,
+          "qty": 1
+        }
+      ],
+      "total": 15.99,
+      "status": "Entregado"
+    },
+    {
+      "id": "1771066195494",
+      "date": "2026-02-14T10:49:55.494Z",
+      "customer": {
+        "nombre": "beatriz",
+        "apellidos": "",
+        "email": "beatrizcuartero15@gmail.com",
+        "telefono": "645599038"
+      },
+      "items": [
+        {
+          "id": 2,
+          "nombre": "Pendientes de Perla",
+          "precio": 15,
+          "qty": 2
+        }
+      ],
+      "total": 30
+    }
+  ]
+}

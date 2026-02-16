@@ -1,0 +1,75 @@
+/* Admin Controls Styles */
+.admin-controls-main {
+    display: none;
+    /* Toggled by JS */
+    padding: 1rem 2rem;
+    text-align: right;
+    background: rgba(255, 255, 255, 0.5);
+    margin-bottom: 20px;
+}
+
+.btn-admin-action {
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    transition: all 0.3s ease;
+    color: white;
+    margin-left: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-add-new {
+    background: linear-gradient(135deg, #c5a059, #e6c88b);
+    /* Gold */
+}
+
+.btn-view-orders {
+    background: linear-gradient(135deg, #d35400, #e67e22);
+    /* Orange */
+}
+
+.btn-view-requests {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    /* Blue */
+}
+
+.btn-backup {
+    background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+    /* Grey */
+}
+
+.btn-admin-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0.95;
+}
+
+/* Modal Enhancements for Admin */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.orders-table th,
+.orders-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+.orders-table th {
+    background: #f9f9f9;
+    color: #555;
+    font-weight: 600;
+}

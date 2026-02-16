@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1771105966497",
+    "date": "2026-02-14T21:52:46.497Z",
+    "items": [
+      {
+        "id": "1771105483736",
+        "qty": 1,
+        "nombre": "herghg",
+        "precio": 7
+      },
+      {
+        "id": "1771105483736",
+        "qty": 1,
+        "nombre": "herghg",
+        "precio": 7
+      },
+      {
+        "id": "1771104459258",
+        "qty": 1,
+        "nombre": "Flores",
+        "precio": 5
+      }
+    ],
+    "customer": {
+      "nombre": "bea",
+      "apellidos": "cuartero",
+      "email": "beatrizcuartero15@gmail.com",
+      "telefono": "645599038"
+    },
+    "status": "Pendiente",
+    "total": 19
+  }
+]

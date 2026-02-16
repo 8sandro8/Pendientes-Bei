@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-02-13T11:12:29.609Z",
+  "products": [
+    {
+      "id": 1,
+      "nombre": "Pendientes de Aro Dorados",
+      "precio": 15.99,
+      "stock": 10,
+      "imagen": "/images/aro-dorado.jpg"
+    },
+    {
+      "id": 2,
+      "nombre": "Pendientes de Perla",
+      "precio": 15,
+      "stock": 5,
+      "imagen": "/images/perla.jpg",
+      "comprador": ""
+    }
+  ],
+  "orders": []
+}

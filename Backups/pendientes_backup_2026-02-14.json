@@ -1,0 +1,53 @@
+{
+  "products": [
+    {
+      "nombre": "Margaritas",
+      "precio": 7,
+      "stock": 5,
+      "categoria": "De Diario",
+      "comprador": "sandro kdflsaknfals",
+      "imagen": "/images/1771064720916-766826731.jpg",
+      "id": "1771064722405",
+      "colors": [],
+      "photos": []
+    },
+    {
+      "nombre": "Pentaflowers",
+      "precio": 7,
+      "stock": 5,
+      "categoria": "De Diario",
+      "comprador": "jsdfaasnf jsfajndsajf",
+      "imagen": "/images/1771065674683-464948043.jpg",
+      "id": "1771065675993",
+      "colors": [],
+      "photos": []
+    },
+    {
+      "nombre": "Mariposa",
+      "precio": 10,
+      "stock": 5,
+      "categoria": "Elegantes",
+      "comprador": "",
+      "imagen": "/images/1771065831792-452535619.jpg",
+      "id": "1771065835822",
+      "colors": [],
+      "photos": []
+    },
+    {
+      "id": 1771104459258,
+      "nombre": "Flores",
+      "precio": 5,
+      "stock": 1,
+      "categoria": "Elegantes",
+      "comprador": "",
+      "colors": [
+        "blanco",
+        "negro"
+      ],
+      "photos": [],
+      "imagen": "/images/upload-1771104457348-619075295.jpg"
+    }
+  ],
+  "orders": [],
+  "requests": []
+}
