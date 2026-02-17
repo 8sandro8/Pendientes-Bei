@@ -12,7 +12,7 @@ module.exports = {
       EMAIL_PASS: "ngkbkfahmqvvjjqb"
     },
     watch: true,
-    ignore_watch: ["node_modules", "data"],
+    ignore_watch: ["node_modules", "data", "email_debug.log"],
     max_memory_restart: "200M",
     log_date_format: "YYYY-MM-DD HH:mm Z"
   }]
