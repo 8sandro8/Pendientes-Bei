@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "id": "1771315883033",
+    "date": "2026-02-17T08:11:23.033Z",
+    "items": [
+      {
+        "id": "1771065835822",
+        "qty": 1,
+        "nombre": "Mariposa",
+        "precio": 10
+      }
+    ],
+    "customer": {
+      "nombre": "Sandro",
+      "apellidos": "Diaz",
+      "email": "sandro88zgz@gmail.com",
+      "telefono": "647749739"
+    },
+    "status": "Pendiente",
+    "total": 10
+  }
+]
