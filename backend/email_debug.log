@@ -8,3 +8,315 @@
 [2026-02-16T08:55:10.660Z] Creating transporter with user: harmonyyclay@gmail.com
 [2026-02-16T08:55:10.782Z] Attempting to send email to sandro88zgz@gmail.com: Confirmación de Pedido - Harmony Clay
 [2026-02-16T08:55:10.782Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T08:57:34.926Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T08:57:36.835Z] TEST EMAIL SUCCESS: <baed9976-1984-99c2-fc4b-b50a9ebf6fc7@gmail.com>
+[2026-02-16T09:10:45.446Z] CRITICAL ERROR sending order emails: user is not defined
+[2026-02-16T09:11:23.329Z] Processing Order Email for Admin: harmonyyclay@gmail.com
+[2026-02-16T09:11:23.330Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T09:11:23.330Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T09:11:26.187Z] EMAIL SENT SUCCESS: <ce5a1122-8541-9871-1cf2-f990f4eaec18@gmail.com>
+[2026-02-16T09:12:40.594Z] DEBUG: Customer Object: {"nombre":"Test User","email":"test@example.com","direccion":"Test Address","telefono":"123456789"}
+[2026-02-16T09:12:40.595Z] DEBUG: Customer Email value: 'test@example.com'
+[2026-02-16T09:12:40.595Z] Processing Order Email for Admin: harmonyyclay@gmail.com
+[2026-02-16T09:12:40.595Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T09:12:40.595Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T09:12:43.417Z] EMAIL SENT SUCCESS: <7ab8b339-5cff-5d00-696f-47aff1d14ad9@gmail.com>
+[2026-02-16T09:17:24.554Z] DEBUG: Customer Object: {"nombre":"Test User","email":"test@example.com","direccion":"Test Address","telefono":"123456789"}
+[2026-02-16T09:17:24.554Z] Processing Order Email for Admin: harmonyyclay@gmail.com
+[2026-02-16T09:17:24.555Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T09:17:24.554Z] DEBUG: Customer Email value: 'test@example.com'
+[2026-02-16T09:17:24.555Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T09:17:27.299Z] Processing Order Email for Client: test@example.com
+[2026-02-16T09:17:27.300Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T09:17:27.300Z] Attempting to send email to test@example.com: Confirmación de Pedido - Harmony Clay
+[2026-02-16T09:17:28.735Z] EMAIL SENT SUCCESS: <113318fc-e0fe-b4e0-dbb7-05365b899f24@gmail.com>
+[2026-02-16T09:27:43.460Z] Processing Order Email for Admin: harmonyyclay@gmail.com
+[2026-02-16T09:27:43.461Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T09:27:43.462Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T09:28:02.587Z] Processing Order Email for Admin: harmonyyclay@gmail.com
+[2026-02-16T09:28:02.589Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T09:28:02.590Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T09:36:12.869Z] Processing Order Email for Admin: harmonyyclay@gmail.com
+[2026-02-16T09:36:12.870Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T09:36:12.870Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T17:23:36.132Z] Processing Order Email for Admin: harmonyyclay@gmail.com
+[2026-02-16T17:23:36.133Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T17:23:36.134Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T17:23:37.297Z] Processing Order Email for Admin: harmonyyclay@gmail.com
+[2026-02-16T17:23:37.297Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T17:23:37.297Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T17:24:35.511Z] Processing Order Email for Admin: harmonyyclay@gmail.com
+[2026-02-16T17:24:35.512Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T17:24:35.513Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T17:41:32.096Z] Processing Order Email for Admin: harmonyyclay@gmail.com (Async)
+[2026-02-16T17:41:32.098Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T17:41:32.098Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T17:49:50.130Z] Processing Order Email for Admin: harmonyyclay@gmail.com (Async)
+[2026-02-16T17:49:50.131Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T17:49:50.132Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T18:06:06.052Z] Processing Order Email for Admin: harmonyyclay@gmail.com (Async)
+[2026-02-16T18:06:06.053Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T18:06:06.054Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T18:10:36.302Z] Processing Order Email for Admin: harmonyyclay@gmail.com (Async)
+[2026-02-16T18:10:36.304Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T18:10:36.304Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T18:12:45.587Z] Processing Order Email for Admin: harmonyyclay@gmail.com (Async)
+[2026-02-16T18:12:45.588Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T18:12:45.589Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T18:13:53.901Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T18:13:55.735Z] TEST EMAIL SUCCESS: <005e7152-d4e4-3bbb-554a-36823bc5254d@gmail.com>
+[2026-02-16T18:14:56.791Z] Attempting to send email to harmonyyclay@gmail.com: Nueva Solicitud - Harmony Clay
+[2026-02-16T18:14:56.792Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T18:40:00.381Z] Processing Order Email for Admin: harmonyyclay@gmail.com (Async)
+[2026-02-16T18:40:00.382Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-16T18:40:00.382Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T18:46:29.663Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-16T18:46:31.560Z] TEST EMAIL SUCCESS: <200c7879-df6e-2ae5-21b3-ebcf0d7a1708@gmail.com>
+[2026-02-17T07:28:38.607Z] Processing Order Email for Admin: harmonyyclay@gmail.com (Async)
+[2026-02-17T07:28:38.608Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-17T07:28:38.608Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-17T07:38:51.824Z] Processing Order Email for Admin: harmonyyclay@gmail.com (Async)
+[2026-02-17T07:38:51.826Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-17T07:38:51.826Z] Creating transporter with user: harmonyyclay@gmail.com
+[2026-02-17T07:43:03.324Z] Processing Order Email for Admin: harmonyyclay@gmail.com (Async)
+[2026-02-17T07:52:56.697Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:52:56.756Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:52:58.563Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:00.436Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:02.331Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:04.257Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:06.091Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:07.979Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:09.847Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:11.805Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:13.808Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:15.696Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:17.503Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:19.429Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:21.246Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:23.202Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:25.167Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:27.165Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:29.185Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:31.047Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:32.905Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:34.790Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:36.601Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:38.529Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:40.429Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:42.275Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:44.320Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:46.142Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:48.120Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:49.977Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:51.835Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:53.838Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:55.868Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:57.771Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:53:59.689Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:01.698Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:03.684Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:05.547Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:07.408Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:09.320Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:11.227Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:13.092Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:15.188Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:16.987Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:18.895Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:20.814Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:22.630Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:24.513Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:27.004Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:28.895Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:30.874Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:32.718Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:34.550Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:36.483Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:38.375Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:40.208Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:42.054Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:43.959Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:45.993Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:47.953Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:49.791Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:51.799Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:53.601Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:55.476Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:57.353Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:54:59.223Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:01.233Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:03.298Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:05.454Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:07.346Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:09.479Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:11.409Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:13.369Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:15.163Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:17.009Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:18.898Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:20.676Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:22.705Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:24.586Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:26.488Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:28.461Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:30.502Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:32.676Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:39.743Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:41.692Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:43.537Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:45.429Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:47.422Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:49.292Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:51.083Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:53.030Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:54.992Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:56.341Z] [QUEUE] Added email for harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-17T07:55:56.425Z] [QUEUE] Added email for sandro88zgz@gmail.com: Confirmación de Pedido - Harmony Clay
+[2026-02-17T07:55:56.705Z] [QUEUE-PROCESS] Processing 1771314956327etx41iyn6 for harmonyyclay@gmail.com
+[2026-02-17T07:55:56.706Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-17T07:55:56.707Z] Initializing detailed transporter for: harmonyyclay@gmail.com
+[2026-02-17T07:55:58.966Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:55:59.567Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:01.515Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:03.929Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:08.743Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:09.599Z] [QUEUE-PROCESS] Processing 1771314956327etx41iyn6 for harmonyyclay@gmail.com
+[2026-02-17T07:56:09.603Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-17T07:56:09.605Z] Initializing detailed transporter for: harmonyyclay@gmail.com
+[2026-02-17T07:56:11.526Z] EMAIL SENT SUCCESS: <1013042e-d0e7-628a-38a0-10e245766902@gmail.com> in 1890ms
+[2026-02-17T07:56:11.527Z] [QUEUE-SUCCESS] Finished 1771314956327etx41iyn6
+[2026-02-17T07:56:14.498Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:14.545Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:16.709Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:19.737Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:22.239Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:24.208Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:24.548Z] [QUEUE-PROCESS] Processing 1771314956349hschbtny6 for sandro88zgz@gmail.com
+[2026-02-17T07:56:24.550Z] Attempting to send email to sandro88zgz@gmail.com: Confirmación de Pedido - Harmony Clay
+[2026-02-17T07:56:24.551Z] Initializing detailed transporter for: harmonyyclay@gmail.com
+[2026-02-17T07:56:25.939Z] EMAIL SENT SUCCESS: <6858c8de-4a3f-2d98-d0d0-ce2285c8bdc5@gmail.com> in 1367ms
+[2026-02-17T07:56:25.941Z] [QUEUE-SUCCESS] Finished 1771314956349hschbtny6
+[2026-02-17T07:56:28.205Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:28.355Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:30.318Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:32.323Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:34.192Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:36.268Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:38.130Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:39.974Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:41.922Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:43.825Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:45.710Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:47.647Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:49.535Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:51.535Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:53.411Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:55.282Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:57.139Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:56:58.958Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:00.811Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:02.686Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:04.906Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:06.970Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:09.043Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:11.119Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:13.005Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:14.830Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:16.719Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:18.586Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:20.442Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:22.575Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:24.607Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:26.529Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:28.493Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:30.396Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:32.236Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:34.174Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:35.942Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:37.830Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:39.797Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:42.485Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:44.523Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:46.432Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:48.256Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:50.092Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:51.993Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:53.839Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:55.753Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:57.534Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:57:59.388Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:01.381Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:03.322Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:05.383Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:07.268Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:09.129Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:11.053Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:12.908Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:14.786Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:16.783Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:19.024Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:21.030Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:23.062Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:24.965Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:26.936Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:28.855Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:30.720Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:32.580Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:34.521Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:36.461Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:38.372Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:40.316Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:42.359Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:44.346Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:46.198Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:48.224Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:50.142Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:51.976Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:53.827Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:55.752Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:57.737Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:58:59.759Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:01.597Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:03.575Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:05.398Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:07.292Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:09.276Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:11.147Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:13.196Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:15.102Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:17.008Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:18.963Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:20.783Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:22.634Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:24.514Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:26.407Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:28.371Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:30.293Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:32.133Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:33.990Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:35.816Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:37.765Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:39.760Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:41.702Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:43.728Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:45.679Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:47.514Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:49.457Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:51.217Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:53.157Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:55.150Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:57.147Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T07:59:59.146Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T08:00:01.089Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T08:00:02.974Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T08:00:04.882Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T08:00:06.762Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T08:00:08.613Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T08:00:10.486Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T08:00:12.306Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T08:00:14.413Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T08:00:16.452Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T08:00:18.325Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T08:00:20.318Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T08:00:22.205Z] [SYSTEM] Email Queue Processor started (10s interval)

@@ -4,6 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const multer = require('multer'); // Importar multer
+const fsOriginal = require('fs'); // Added back for sync operations
 require('dotenv').config();
 
 const app = express();
@@ -13,6 +14,13 @@ const morgan = require('morgan');
 app.use(morgan('dev'));
 app.use(express.json()); // Permite recibir JSON en el body
 app.use(cors()); // Permite peticiones desde otros dominios (útil para desarrollo)
+
+// GLOBAL REQUEST DEBUGGER
+app.use((req, res, next) => {
+  console.log(`[GLOBAL DEBUG] Incoming Request: ${req.method} ${req.url}`);
+  console.log(`[GLOBAL DEBUG] Headers:`, req.headers);
+  next();
+});
 
 
 const SECRET_KEY = process.env.SECRET_KEY || 'tu_clave_secreta_aqui';
@@ -26,26 +34,6 @@ console.log('[STARTUP] Admin Password Configured:', ADMIN_PASSWORD === 'coquito.
 const frontendPath = path.join(__dirname, '../frontend');
 console.log('[STARTUP] Serving static from:', frontendPath);
 
-// DIAGNOSTIC: Check if files actually exist
-const fsOriginal = require('fs'); // Need sync verify for startup
-try {
-  const stylePath = path.join(frontendPath, 'style.css');
-  const indexPath = path.join(frontendPath, 'index.html');
-  console.log('[DIAGNOSTIC] Checking frontend files...');
-  console.log(`[DIAGNOSTIC] style.css exists? ${fsOriginal.existsSync(stylePath)} (${stylePath})`);
-  console.log(`[DIAGNOSTIC] index.html exists? ${fsOriginal.existsSync(indexPath)} (${indexPath})`);
-
-  // List files in frontend directory to be sure
-  if (fsOriginal.existsSync(frontendPath)) {
-    const files = fsOriginal.readdirSync(frontendPath);
-    console.log('[DIAGNOSTIC] Files in frontend dir:', files.join(', '));
-  } else {
-    console.error('[DIAGNOSTIC] FATAL: Frontend directory does not exist!');
-  }
-} catch (err) {
-  console.error('[DIAGNOSTIC] Error checking files:', err);
-}
-
 // ... (middleware content) ...
 
 // --- EMAIL NOTIFICATIONS ---
@@ -57,85 +45,189 @@ async function logToFile(msg) {
   const timestamp = new Date().toISOString();
   const logLine = `[${timestamp}] ${msg}\n`;
   try {
-    await fsOriginal.promises.appendFile(logFile, logLine);
+    await fs.appendFile(logFile, logLine);
   } catch (e) {
     console.error('Failed to write to log file:', e);
   }
 }
 
-// Helper to get fresh transporter
+// Email Configuration with Singleton Pattern
+let emailTransporter = null;
+
 function getTransporter() {
-  // FALLBACK CREDENTIALS (DEBUGGING)
-  const user = process.env.EMAIL_USER || 'harmonyyclay@gmail.com';
-  const pass = process.env.EMAIL_PASS || 'ngkbkfahmqvvjjqb';
+  if (emailTransporter) return emailTransporter;
 
-  logToFile(`Creating transporter with user: ${user}`);
+  try {
+    const user = 'harmonyyclay@gmail.com';
+    const pass = 'ngkbkfahmqvvjjqb';
 
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: user,
-      pass: pass
-    }
-  });
+    logToFile(`Initializing detailed transporter for: ${user}`);
+
+    emailTransporter = nodemailer.createTransport({
+      service: 'gmail',
+      pool: true, // Use pooled connections
+      maxConnections: 5,
+      maxMessages: 100,
+      auth: { user, pass }
+    });
+
+    return emailTransporter;
+  } catch (error) {
+    console.error('CRITICAL: Failed to create transporter:', error);
+    logToFile(`CRITICAL: Failed to create transporter: ${error.message}`);
+    throw error;
+  }
 }
 
+// ... global handlers ...
+
 async function sendEmailNotification(subject, text, toAddress = null) {
-  const user = process.env.EMAIL_USER || 'harmonyyclay@gmail.com';
-  const recipient = toAddress || user; // Default to admin if no address provided
+  const user = 'harmonyyclay@gmail.com';
+  const recipient = toAddress || user;
 
+  console.log(`[EMAIL-DEBUG] Sending to: ${recipient}, Subject: ${subject}`);
   logToFile(`Attempting to send email to ${recipient}: ${subject}`);
-
-  const mailOptions = {
-    from: user,
-    to: recipient,
-    subject: subject,
-    text: text
-  };
 
   try {
     const transporter = getTransporter();
-    const info = await transporter.sendMail(mailOptions);
-    logToFile(`EMAIL SENT SUCCESS: ${info.messageId}`);
+
+    const mailOptions = {
+      from: user,
+      to: recipient,
+      subject: subject,
+      text: text
+    };
+
+    const start = Date.now();
+
+    // Add Timeout Race
+    const sendPromise = transporter.sendMail(mailOptions);
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Email send timeout (10s)')), 10000)
+    );
+
+    const info = await Promise.race([sendPromise, timeoutPromise]);
+    const duration = Date.now() - start;
+
+    logToFile(`EMAIL SENT SUCCESS: ${info.messageId} in ${duration}ms`);
+    console.log(`[EMAIL-SUCCESS] MessageID: ${info.messageId} (${duration}ms)`);
     return true;
   } catch (error) {
-    logToFile(`EMAIL ERROR: ${error.message}`);
+    logToFile(`EMAIL ERROR: ${error.message} \nStack: ${error.stack}`);
     console.error('[EMAIL ERROR]', error);
     return false;
   }
 }
 
-// REQUEST LOGGER
-app.use((req, res, next) => {
-  console.log(`[REQUEST] ${req.method} ${req.url}`);
-  next();
-});
-
-// FORCE STATIC SERVING (Debug)
-app.get('/style.css', (req, res) => {
-  const file = path.join(frontendPath, 'style.css');
-  console.log('[DEBUG] Serving style.css form:', file);
-  res.sendFile(file, (err) => {
-    if (err) console.error('[ERROR] style.css not found:', err);
-  });
-});
-
-app.get('/app.js', (req, res) => {
-  const file = path.join(frontendPath, 'app.js');
-  console.log('[DEBUG] Serving app.js form:', file);
-  res.sendFile(file, (err) => {
-    if (err) console.error('[ERROR] app.js not found:', err);
-  });
-});
-
-app.use(express.static(frontendPath));
-
 // --- DATA MANAGEMENT ---
 const DATA_DIR = path.join(__dirname, 'data');
+const EMAIL_QUEUE_FILE = path.join(DATA_DIR, 'email_queue.json');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'pendientes.json');
 const ORDERS_FILE = path.join(DATA_DIR, 'orders.json');
 const REQUESTS_FILE = path.join(DATA_DIR, 'requests.json');
 const CATEGORIES_FILE = path.join(DATA_DIR, 'categories.json');
+
+// Helper to read queue
+async function readQueue() {
+  try {
+    const data = await fs.readFile(EMAIL_QUEUE_FILE, 'utf8');
+    return JSON.parse(data);
+  } catch (err) {
+    if (err.code === 'ENOENT') return [];
+    throw err;
+  }
+}
+
+app.use(express.static(frontendPath));
+
+// --- QUEUE LOGIC ---
+
+// Helper to write queue
+async function writeQueue(queue) {
+  await fs.writeFile(EMAIL_QUEUE_FILE, JSON.stringify(queue, null, 2));
+}
+
+// Add to Queue
+async function addToQueue(recipient, subject, text) {
+  try {
+    let queue = await readQueue();
+    if (!Array.isArray(queue)) queue = [];
+
+    queue.push({
+      id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+      recipient,
+      subject,
+      text,
+      attempts: 0,
+      createdAt: new Date().toISOString()
+    });
+    await writeQueue(queue);
+    logToFile(`[QUEUE] Added email for ${recipient}: ${subject}`);
+  } catch (err) {
+    console.error('CRITICAL: Failed to add to email queue', err);
+    logToFile(`[QUEUE-ERROR] Failed to add: ${err.message}`);
+  }
+}
+
+// Process Queue (Background Worker)
+let isProcessingQueue = false;
+async function processQueue() {
+  if (isProcessingQueue) return;
+  isProcessingQueue = true;
+
+  try {
+    let queue = await readQueue();
+    if (!Array.isArray(queue) || queue.length === 0) {
+      isProcessingQueue = false;
+      return;
+    }
+
+    // Take ONE item to process (FIFO)
+    const item = queue[0];
+
+    // Check max attempts
+    if (item.attempts >= 3) {
+      logToFile(`[QUEUE-DROP] Dropping email ${item.id} after 3 failed attempts.`);
+      queue.shift(); // Remove
+      await writeQueue(queue);
+      isProcessingQueue = false;
+      return;
+    }
+
+    logToFile(`[QUEUE-PROCESS] Processing ${item.id} for ${item.recipient}`);
+
+    // Try Send
+    const success = await sendEmailNotification(item.subject, item.text, item.recipient);
+
+    if (success) {
+      logToFile(`[QUEUE-SUCCESS] Finished ${item.id}`);
+      // Read fresh queue in case new items were added while sending
+      queue = await readQueue();
+      queue = queue.filter(q => q.id !== item.id);
+      await writeQueue(queue);
+    } else {
+      logToFile(`[QUEUE-RETRY] Failed ${item.id}, incrementing attempts.`);
+      queue = await readQueue();
+      const index = queue.findIndex(q => q.id === item.id);
+      if (index !== -1) {
+        queue[index].attempts = (queue[index].attempts || 0) + 1;
+        await writeQueue(queue);
+      }
+    }
+
+  } catch (err) {
+    console.error('Queue Processor Error:', err);
+  } finally {
+    isProcessingQueue = false;
+  }
+}
+
+// Start Background Worker
+setInterval(processQueue, 10000);
+logToFile('[SYSTEM] Email Queue Processor started (10s interval)');
+
+
+
 
 // Initialize Categories if not exists
 (async () => {
@@ -335,15 +427,17 @@ app.post('/api/orders', async (req, res) => {
     orders.push(newOrder);
     await writeJSON(ORDERS_FILE, orders);
 
-    // Send Email (Async)
-    // Send Email to Admin
-    const emailBodyAdmin = `Nuevo pedido de ${customer.nombre}!\nTotal: ${newOrder.total}€\nVer en panel de admin.`;
-    sendEmailNotification('Nuevo Pedido - Harmony Clay', emailBodyAdmin);
+    // QUEUE Emails (Instant for User)
+    const senderEmail = 'harmonyyclay@gmail.com';
 
-    // Send Email to Client
+    // Queue for Admin
+    const emailBodyAdmin = `Nuevo pedido de ${customer.nombre}!\nTotal: ${newOrder.total}€\nVer en panel de admin.`;
+    await addToQueue(senderEmail, 'Nuevo Pedido - Harmony Clay', emailBodyAdmin);
+
+    // Queue for Client
     if (customer.email) {
-      const emailBodyClient = `¡Hola ${customer.nombre}!\n\nHemos recibido tu pedido en Harmony Clay.\n\nResumen:\n${items.map(i => `- ${i.nombre} (${i.qty}x) - ${i.precio}€`).join('\n')}\n\nTotal: ${newOrder.total}€\n\nNos pondremos en contacto contigo pronto cuando el pedido esté listo o enviado.\n\nGracias,\nEl equipo de Harmony Clay`;
-      sendEmailNotification('Confirmación de Pedido - Harmony Clay', emailBodyClient, customer.email);
+      const emailBodyClient = `¡Hola ${customer.nombre}!\n\nHemos recibido tu pedido en Harmony Clay.\n\nResumen:\n${newOrder.items.map(i => `- ${i.nombre} (${i.qty}x) - ${i.precio}€`).join('\n')}\n\nTotal: ${newOrder.total}€\n\nNos pondremos en contacto contigo pronto cuando el pedido esté listo o enviado.\n\nGracias,\nEl equipo de Harmony Clay`;
+      await addToQueue(customer.email, 'Confirmación de Pedido - Harmony Clay', emailBodyClient);
     }
 
     res.json(newOrder);
@@ -374,17 +468,25 @@ app.put('/api/orders/:id', verifyToken, async (req, res) => {
 app.delete('/api/orders/:id', verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(`[DEBUG-DELETE] Attempting to delete order ID: ${id}`); // DEBUG
     let orders = await readJSON(ORDERS_FILE);
     const initialLen = orders.length;
-    orders = orders.filter(o => String(o.id) !== id);
+
+    // Debug IDs in file
+    console.log(`[DEBUG-DELETE] IDs in file: ${orders.map(o => o.id).join(', ')}`);
+
+    orders = orders.filter(o => String(o.id) !== String(id)); // Ensure strict string comparison
 
     if (orders.length < initialLen) {
       await writeJSON(ORDERS_FILE, orders);
+      console.log(`[DEBUG-DELETE] Success. New length: ${orders.length}`);
       res.json({ message: 'Orden eliminada' });
     } else {
-      res.status(404).json({ message: 'Orden no encontrada' });
+      console.error(`[DEBUG-DELETE] Failed. ID ${id} not found.`);
+      res.status(404).json({ message: 'Orden no encontrada. Revisa consola del servidor.' });
     }
   } catch (err) {
+    console.error(`[DEBUG-DELETE] Error: ${err.message}`);
     res.status(500).json({ message: 'Error deleting order' });
   }
 });
@@ -414,7 +516,7 @@ app.post('/api/requests', async (req, res) => {
     reqs.push(newReq);
     await writeJSON(REQUESTS_FILE, reqs);
 
-    sendEmailNotification('Nueva Solicitud - Harmony Clay', `Solicitud de ${name} para ${productName}.\nContacto: ${contact}`);
+    await addToQueue('harmonyyclay@gmail.com', 'Nueva Solicitud - Harmony Clay', `Solicitud de ${name} para ${productName}.\nContacto: ${contact}`);
 
     res.json(newReq);
   } catch (err) {
@@ -425,14 +527,19 @@ app.post('/api/requests', async (req, res) => {
 app.delete('/api/requests/:id', verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(`[DEBUG-DELETE-REQ] Attempting to delete request ID: ${id}`);
     let reqs = await readJSON(REQUESTS_FILE);
     const initialLen = reqs.length;
-    reqs = reqs.filter(r => String(r.id) !== id);
+
+    console.log(`[DEBUG-DELETE-REQ] IDs in file: ${reqs.map(r => r.id).join(', ')}`);
+
+    reqs = reqs.filter(r => String(r.id) !== String(id));
 
     if (reqs.length < initialLen) {
       await writeJSON(REQUESTS_FILE, reqs);
       res.json({ message: 'Solicitud eliminada' });
     } else {
+      console.error(`[DEBUG-DELETE-REQ] Failed. ID ${id} not found.`);
       res.status(404).json({ message: 'Solicitud no encontrada' });
     }
   } catch (err) {

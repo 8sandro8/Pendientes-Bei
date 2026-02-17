@@ -3,10 +3,64 @@ let token = localStorage.getItem('admin_token');
 let allProducts = [];
 let cart = [];
 let categories = [];
+let searchQuery = '';
 let currentCategory = 'all';
+
+// --- GLOBAL FUNCTIONS (Must be top-level) ---
+window.deleteOrder = async function (id) {
+  if (!confirm('¿Eliminar pedido permanentemente?')) return;
+  alert(`DEBUG: Enviando orden de borrar pedido ID: ${id}`);
+  const btn = event.target.closest('button');
+  if (btn) btn.disabled = true;
+
+  try {
+    const res = await fetchWithAuth(`${API_URL}/orders/${id}`, { method: 'DELETE' });
+    if (res.ok) {
+      showToast('Pedido eliminado');
+      await fetchOrders();
+      // Force reload if in modal to ensure clean state
+      const modal = document.getElementById('orders-modal');
+      if (modal && modal.style.display === 'flex') fetchOrders();
+    } else {
+      showToast('Error al eliminar', 'error');
+      if (btn) btn.disabled = false;
+    }
+  } catch (e) {
+    showToast('Error conexión', 'error');
+    if (btn) btn.disabled = false;
+  }
+}
+
+window.deleteRequest = async function (id) {
+  if (!confirm('¿Eliminar solicitud?')) return;
+  alert(`DEBUG: Enviando orden de borrar solicitud ID: ${id}`);
+  const btn = event.target.closest('button');
+  if (btn) btn.disabled = true;
+
+  try {
+    const res = await fetchWithAuth(`${API_URL}/requests/${id}`, { method: 'DELETE' });
+    if (res.ok) {
+      showToast('Solicitud eliminada');
+      fetchRequests();
+    } else {
+      showToast('Error al eliminar', 'error');
+      if (btn) btn.disabled = false;
+    }
+  } catch (e) {
+    showToast('Error conexión', 'error');
+    if (btn) btn.disabled = false;
+  }
+}
+
+// --- SEARCH FUNCTION ---
+window.searchProducts = function (query) {
+  searchQuery = query.toLowerCase().trim();
+  renderPendientes();
+}
 
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
+  // ... existing init code ...
   checkLoginState();
   fetchCategories();
   fetchPendientes();
@@ -17,98 +71,55 @@ document.addEventListener('DOMContentLoaded', () => {
   link.href = '/admin.css';
   document.head.appendChild(link);
 
-  console.log('App v5 initialized (Clean Build)');
-  setTimeout(() => showToast('Sistema actualizado v5'), 1000);
-
   setupEventListeners();
 });
 
-// --- EVENT LISTENERS setupEventListeners ---
 function setupEventListeners() {
-  // Forms
   const loginForm = document.getElementById('login-form');
-  if (loginForm) loginForm.addEventListener('submit', handleLogin);
+  if (loginForm) loginForm.onsubmit = handleLogin;
 
   const productForm = document.getElementById('product-form');
-  if (productForm) productForm.addEventListener('submit', handleProductSubmit);
+  if (productForm) productForm.onsubmit = handleProductSubmit;
 
   const checkoutForm = document.getElementById('checkout-form');
-  if (checkoutForm) checkoutForm.addEventListener('submit', handleCheckoutSubmit);
+  if (checkoutForm) checkoutForm.onsubmit = handleCheckoutSubmit;
 
   const commentForm = document.getElementById('comment-form');
-  if (commentForm) commentForm.addEventListener('submit', handleCommentSubmit);
+  if (commentForm) commentForm.onsubmit = handleCommentSubmit;
+}
 
-  // Main Container Delegation
+// ... (event listeners remain same) ...
+
+// --- DATA FETCHING ---
+async function fetchPendientes() {
   const container = document.getElementById('pendientes-container');
-  if (container) {
-    container.addEventListener('click', handleProductClick);
+  // Only show full spinner if we have NO products loaded (clean load)
+  // This prevents the "infinite spinner" on background refreshes
+  if (container && allProducts.length === 0) {
+    container.innerHTML = '<div class="loading-spinner"></div><p class="loading-text">Cargando colección...</p>';
   }
 
-  // Cart Delegation
-  const cartContainer = document.getElementById('cart-items');
-  if (cartContainer) {
-    cartContainer.addEventListener('click', (e) => {
-      const btn = e.target.closest('.btn-remove-item');
-      if (btn) removeFromCart(btn.dataset.id, btn.dataset.color || null);
-    });
-  }
+  // Ensure token is fresh
+  token = localStorage.getItem('admin_token');
+  checkLoginState();
 
-  // Filter Delegation
-  const filterContainer = document.getElementById('filters-container');
-  if (filterContainer) {
-    filterContainer.addEventListener('click', (e) => {
-      const btn = e.target.closest('.filter-btn');
-      if (btn && !btn.id.includes('manage-cats')) {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentCategory = btn.dataset.category;
-        renderPendientes();
-      }
-    });
-  }
-}
+  try {
+    const res = await fetch(`${API_URL}/pendientes`);
+    if (!res.ok) throw new Error('Error al cargar productos');
 
-// --- CENTRALIZED CLICK HANDLER ---
-function handleProductClick(e) {
-  const target = e.target;
-
-  // 1. Admin Actions
-  const btnEdit = target.closest('.btn-edit');
-  if (btnEdit) { openEditModal(btnEdit.dataset.id); return; }
-
-  const btnDelete = target.closest('.btn-delete');
-  if (btnDelete) { deleteProduct(btnDelete.dataset.id); return; }
-
-  // 2. Cart Actions
-  const btnAddCart = target.closest('.btn-add-cart');
-  if (btnAddCart) { addToCart(btnAddCart.dataset.id); return; }
-
-  // 3. Ignore specific containers
-  if (target.closest('.admin-actions') || target.closest('.quick-add-container')) return;
-  if (target.closest('input') || target.closest('select')) return;
-
-  // 4. Detail View (Button or Card)
-  const btnDetail = target.closest('.btn-detail');
-  const card = target.closest('.pendiente');
-
-  if (btnDetail || (card && !target.closest('button'))) {
-    if (card) {
-      const id = card.dataset.id;
-      // Robust find: Match string to string
-      const product = allProducts.find(p => String(p.id) === String(id));
-
-      if (product) {
-        console.log('Opening details for:', product.nombre);
-        openDetailModal(product);
-      } else {
-        console.error('Product not found in memory:', id);
-        showToast('Error: Producto no encontrado', 'error');
-      }
+    allProducts = await res.json();
+    renderPendientes();
+  } catch (err) {
+    console.error(err);
+    if (container) {
+      // Only show error in container if it's truly empty
+      if (allProducts.length === 0) container.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Error al cargar la colección. Intenta recargar.</p>';
     }
+    // Only show toast if we have no products to show at all
+    if (allProducts.length === 0) showToast('Error de conexión', 'error');
   }
 }
 
-// --- API ACTIONS ---
 async function fetchCategories() {
   try {
     const res = await fetch(`${API_URL}/categories`);
@@ -116,38 +127,27 @@ async function fetchCategories() {
       categories = await res.json();
       renderFilters();
     }
-  } catch (e) { console.error('Error categories', e); }
+  } catch (e) { console.error('Error fetching categories', e); }
 }
 
 function renderFilters() {
   const container = document.getElementById('dynamic-filters');
-  // If container doesn't exist (e.g. simplified view), skip
   if (!container) return;
 
-  let html = `<button class="filter-btn ${currentCategory === 'all' ? 'active' : ''}" data-category="all">Todos</button>`;
+  // "Todos" button
+  let html = `<button class="filter-btn ${currentCategory === 'all' ? 'active' : ''}" onclick="setCategory('all')">Todos</button>`;
+
   categories.forEach(cat => {
-    html += `<button class="filter-btn ${currentCategory === cat ? 'active' : ''}" data-category="${cat}">${cat}</button>`;
-  });
+    html += `<button class="filter-btn ${currentCategory === cat ? 'active' : ''}" onclick="setCategory('${cat}')">${cat}</button>`;
+  }); // Note: logic for active class might need refinement based on exact currentCategory value usage
+
   container.innerHTML = html;
 }
 
-async function fetchPendientes() {
-  const container = document.getElementById('pendientes-container');
-  if (!container) return;
-
-  try {
-    const res = await fetch(`${API_URL}/pendientes`);
-    if (!res.ok) throw new Error('Error API');
-
-    const raw = await res.json();
-    // Normalize Logic
-    allProducts = raw.map(p => ({ ...p, id: String(p.id) }));
-
-    renderPendientes();
-  } catch (err) {
-    console.error(err);
-    container.innerHTML = '<p class="error-msg">No se pudieron cargar los productos.</p>';
-  }
+window.setCategory = function (cat) {
+  currentCategory = cat;
+  renderPendientes();
+  renderFilters(); // Re-render to update active state
 }
 
 // --- UI RENDERING ---
@@ -161,12 +161,15 @@ function renderPendientes() {
     return;
   }
 
-  const filtered = currentCategory === 'all'
-    ? allProducts
-    : allProducts.filter(p => p.categoria === currentCategory);
+  // Filter by Category AND Search Query
+  const filtered = allProducts.filter(p => {
+    const matchesCategory = currentCategory === 'all' || p.categoria === currentCategory;
+    const matchesSearch = p.nombre.toLowerCase().includes(searchQuery);
+    return matchesCategory && matchesSearch;
+  });
 
   if (filtered.length === 0) {
-    container.innerHTML = '<p style="text-align:center; width:100%;">No hay productos en esta categoría.</p>';
+    container.innerHTML = '<p style="text-align:center; width:100%;">No se encontraron productos.</p>';
     return;
   }
 
@@ -179,11 +182,14 @@ function renderPendientes() {
     const isSoldOut = p.stock <= 0;
     const isReserved = p.comprador && isSoldOut;
 
+    // Force refresh token state
+    const currentToken = localStorage.getItem('admin_token');
+
     // Admin Actions HTML
-    const adminHtml = token ? `
+    const adminHtml = currentToken ? `
       <div class="admin-actions">
-        <button class="btn-admin btn-edit" data-id="${p.id}"><i class="fa-solid fa-pencil"></i></button>
-        <button class="btn-admin btn-delete" data-id="${p.id}"><i class="fa-solid fa-trash"></i></button>
+        <button class="btn-admin btn-edit" onclick="openEditModal('${p.id}')"><i class="fa-solid fa-pencil"></i></button>
+        <button class="btn-admin btn-delete" onclick="deleteProduct('${p.id}')"><i class="fa-solid fa-trash"></i></button>
       </div>
     ` : '';
 
@@ -209,7 +215,7 @@ function renderPendientes() {
              ${colorHtml}
              <div style="display:flex; gap:5px; margin-top:5px;">
                <input type="number" id="qty-${p.id}" value="1" min="1" max="${p.stock}" style="width:50px; padding:5px; text-align:center; border:1px solid #ddd; border-radius:4px;">
-               <button class="btn-add-cart" data-id="${p.id}" style="flex:1; background:var(--secondary-color); color:white; border:none; border-radius:4px;">Añadir</button>
+               <button class="btn-add-cart" data-id="${p.id}" onclick="addToCart('${p.id}')" style="flex:1; background:var(--secondary-color); color:white; border:none; border-radius:4px;">Añadir</button>
              </div>
            </div>
          `;
@@ -222,14 +228,14 @@ function renderPendientes() {
       <div class="stock" style="${token ? 'display:block;' : ''}">Stock: ${p.stock}</div>
       
       <div class="image-container">
-        <img src="${p.imagen || '/images/default-earring.jpg'}" alt="${p.nombre}" loading="lazy">
+        <img src="${p.imagen || '/images/default-earring.jpg'}" alt="${p.nombre}" loading="lazy" onclick="openDetailModal('${p.id}')" style="cursor:pointer;">
       </div>
       
       <div class="card-info">
         <h3>${p.nombre}</h3>
         <span class="price">${formatPrice(p.precio)}</span>
         
-        <button class="btn-detail" type="button" style="width:100%; margin-top:10px; padding:8px; background:#f0f0f0; border:1px solid #ddd; border-radius:4px; cursor:pointer;">
+        <button class="btn-detail" type="button" onclick="openDetailModal('${p.id}')" style="width:100%; margin-top:10px; padding:8px; background:#f0f0f0; border:1px solid #ddd; border-radius:4px; cursor:pointer;">
             <i class="fa-solid fa-eye"></i> Ver Detalle
         </button>
 
@@ -883,13 +889,31 @@ window.updateOrderStatus = async function (id, newStatus) {
 
 window.deleteOrder = async function (id) {
   if (!confirm('¿Eliminar pedido permanentemente?')) return;
+
+  // Safely attempt to get button
+  let btn = null;
+  try {
+    if (typeof event !== 'undefined' && event.target) {
+      btn = event.target.closest('button');
+      if (btn) btn.disabled = true;
+    }
+  } catch (e) { console.warn('Button tracking error:', e); }
+
   try {
     const res = await fetchWithAuth(`${API_URL}/orders/${id}`, { method: 'DELETE' });
     if (res.ok) {
       showToast('Pedido eliminado');
-      fetchOrders();
-    } else showToast('Error al eliminar', 'error');
-  } catch (e) { showToast('Error conexión', 'error'); }
+      await fetchOrders();
+    } else {
+      const err = await res.json().catch(() => ({}));
+      showToast(err.message || 'Error al eliminar', 'error');
+      if (btn) btn.disabled = false;
+    }
+  } catch (e) {
+    console.error(e);
+    showToast('Error de conexión', 'error');
+    if (btn) btn.disabled = false;
+  }
 }
 
 // Request Submit
@@ -901,6 +925,12 @@ async function handleCheckoutSubmit(e) {
   const surname = document.getElementById('checkout-surname').value;
   const email = document.getElementById('checkout-email').value;
   const phone = document.getElementById('checkout-phone').value;
+
+  // Visual Feedback
+  const btn = document.querySelector('.btn-reserve-submit');
+  const originalText = btn.textContent;
+  btn.textContent = 'Procesando...';
+  btn.disabled = true;
 
   try {
     const res = await fetch(`${API_URL}/orders`, {
@@ -914,16 +944,33 @@ async function handleCheckoutSubmit(e) {
 
     if (res.ok) {
       window.closeModal('cart-modal');
-      showToast('¡Pedido confirmado!');
+      showToast('¡Pedido confirmado! Te llegará un email.');
+
       cart = [];
       updateCartUI();
       document.getElementById('checkout-form').reset();
       fetchPendientes();
     } else {
-      const err = await res.json();
-      showToast(err.message || 'Error al pedir', 'error');
+      let message = 'Error al realizar pedido';
+      try {
+        const err = await res.json();
+        message = err.message || message;
+      } catch (e) {
+        const text = await res.text();
+        console.error('Non-JSON Error Response:', text);
+        message = `Error del servidor (${res.status})`;
+      }
+      showToast(message, 'error');
+      alert(`Lo siento, hubo un problema:\n${message}\n\nPor favor, inténtalo de nuevo o contacta con nosotros.`);
     }
-  } catch (err) { console.error(err); showToast('Error conexión', 'error'); }
+  } catch (err) {
+    console.error('Checkout Error:', err);
+    showToast('Error de conexión', 'error');
+    alert(`Error de conexión con el servidor.\nDetalles: ${err.message}\nComprueba tu internet o intenta más tarde.`);
+  } finally {
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
 }
 
 async function handleProductSubmit(e) {
@@ -996,18 +1043,7 @@ async function handleProductSubmit(e) {
 }
 
 // --- MISSING ADMIN FUNCTIONS ---
-async function deleteProduct(id) {
-  if (!confirm('¿Eliminar producto?')) return;
-  try {
-    const res = await fetchWithAuth(`${API_URL}/pendientes/${id}`, { method: 'DELETE' });
-    if (res.ok) {
-      showToast('Eliminado');
-      fetchPendientes();
-    } else {
-      showToast('Error al eliminar', 'error');
-    }
-  } catch (err) { showToast('Error conexión', 'error'); }
-}
+
 
 window.downloadBackup = async function () {
   if (!token) return;
@@ -1028,72 +1064,9 @@ window.downloadBackup = async function () {
   } catch (e) { showToast('Error backup', 'error'); }
 }
 
-window.deleteProduct = deleteProduct; // Expose globally just in case
+
 // --- CATEGORY MANAGER ---
-window.openCategoriesModal = function () {
-  document.getElementById('categories-modal').style.display = 'flex';
-  renderCategoriesTable();
-}
 
-function renderCategoriesTable() {
-  const table = document.getElementById('categories-table');
-  if (!table) return;
-
-  if (!categories.length) {
-    table.innerHTML = '<tr><td colspan="2" style="text-align:center; padding:10px;">No hay categorías.</td></tr>';
-    return;
-  }
-
-  table.innerHTML = categories.map(cat => `
-        <tr>
-            <td style="padding:10px; border-bottom:1px solid #eee;">${cat}</td>
-            <td style="text-align:right; padding:10px; border-bottom:1px solid #eee;">
-                <button onclick="deleteCategory('${cat}')" style="color:red; background:none; border:none; cursor:pointer;" title="Eliminar">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            </td>
-        </tr>
-    `).join('');
-}
-
-window.addCategory = async function () {
-  const input = document.getElementById('new-cat-name');
-  const name = input.value.trim();
-  if (!name) return;
-
-  try {
-    const res = await fetchWithAuth(`${API_URL}/categories`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name })
-    });
-
-    if (res.ok) {
-      categories = await res.json();
-      input.value = '';
-      renderFilters();
-      renderCategoriesTable();
-      showToast('Categoría añadida');
-    } else {
-      showToast('Error al añadir', 'error');
-    }
-  } catch (e) { showToast('Error conexión', 'error'); }
-}
-
-window.deleteCategory = async function (name) {
-  if (!confirm(`¿Eliminar categoría "${name}"?`)) return;
-  try {
-    const res = await fetchWithAuth(`${API_URL}/categories/${name}`, { method: 'DELETE' });
-    if (res.ok) {
-      categories = categories.filter(c => c !== name);
-      renderFilters();
-      renderCategoriesTable();
-      showToast('Categoría eliminada');
-    } else {
-      showToast('Error al eliminar', 'error');
-    }
-  } catch (e) { showToast('Error conexión', 'error'); }
-}
 window.saveDescription = async function (id) {
   const newDesc = document.getElementById('admin-desc-input').value;
   try {
@@ -1149,102 +1122,24 @@ window.openEditModal = function (id) {
   document.getElementById('modal-title').textContent = 'Editar Pendiente';
   document.getElementById('product-modal').style.display = 'flex';
 }
-window.searchProducts = function (query) {
-  const term = query.toLowerCase().trim();
-  if (!term) {
-    renderPendientes(); // Reset to current category view
-    return;
-  }
 
-  // Filter globally across all products
-  const filtered = allProducts.filter(p =>
-    p.nombre.toLowerCase().includes(term) ||
-    (p.descripcion && p.descripcion.toLowerCase().includes(term)) ||
-    (p.categoria && p.categoria.toLowerCase().includes(term))
-  );
+window.deleteProduct = async function (id) {
+  if (!confirm('¿Estás seguro de que quieres eliminar este pendiente?')) return;
 
-  const container = document.getElementById('pendientes-container');
-  if (!container) return;
-
-  if (!filtered.length) {
-    container.innerHTML = `<p style="text-align:center; width:100%; color:#888; padding:20px;">No se encontraron resultados para "${query}".</p>`;
-    return;
-  }
-
-  // Temporarily override render logic for search results
-  // We reuse the render logic but manually populate the container to avoid complex state changes
-  // Actually, let's just use a temporary override of currentCategory? No, that's messy.
-  // Let's just render the filtered list directly.
-
-  container.innerHTML = '';
-  filtered.forEach(p => {
-    // Reuse the HTML generation logic? 
-    // Best to refactor ensure renderPendientes accepts an optional list, but for now duplicate the card generation specific for search or just reuse render helper?
-    // Let's modify renderPendientes to accept a list override, or just copy the card gen logic here for "Spectacular" speed.
-
-    // Let's be smart: The rendering logic is complex (admin buttons, etc). 
-    // Let's hack renderPendientes to support a specific list if passed?
-    // No, let's just call renderPendientes with a global override.
-
-    // WAIT: renderPendientes reads 'allProducts' and filters by 'currentCategory'.
-    // Let's add a 'currentSearch' global?
-  });
-
-  // BETTER APPROACH:
-  // Let's modify `renderPendientes` to check if there is a search term.
-  // But since I can't easily modify the middle of the file without context, I will create a standalone render helper or 
-  // simply put the render logic here. 
-
-  // Actually, looking at the code, `renderPendientes` is clean. 
-  // I'll append a `renderProductCard(p)` helper? No.
-  // I will iterate and build HTML here. It's safer.
-
-  // ... Actually, I'll just clear the container and reuse `renderPendientes` logic by manually creating the elements.
-  // This duplicates code but avoids breaking the existing function which I can't easily replace in full.
-
-  filtered.forEach(p => {
-    const div = document.createElement('div');
-    div.className = 'pendiente';
-    div.dataset.id = p.id;
-
-    const isSoldOut = p.stock <= 0;
-    const isReserved = p.comprador && isSoldOut;
-
-    const adminHtml = token ? `
-           <div class="admin-actions">
-             <button class="btn-admin btn-edit" data-id="${p.id}"><i class="fa-solid fa-pencil"></i></button>
-             <button class="btn-admin btn-delete" data-id="${p.id}"><i class="fa-solid fa-trash"></i></button>
-           </div>
-        ` : '';
-
-    // Simplified client action for search view (consistent with main view)
-    let clientActionHtml = '';
-    if (!token) {
-      if (isSoldOut) {
-        clientActionHtml = `<button class="btn-reserve" style="background:#ff9f43; color:white; border:none; width:100%; margin-top:8px; padding:8px; border-radius:4px;" onclick="event.stopPropagation(); openRequestModal('${p.id}', '${p.nombre.replace(/'/g, "\\'")}')">Solicitar</button>`;
-      } else if (!p.comprador) {
-        // Quick Add Logic (Simplified for Search)
-        clientActionHtml = `<button class="btn-add-cart" data-id="${p.id}" style="width:100%; margin-top:8px; background:var(--secondary-color); color:white; border:none; padding:8px; border-radius:4px;">Añadir</button>`;
-      }
+  try {
+    const res = await fetchWithAuth(`${API_URL}/pendientes/${id}`, { method: 'DELETE' });
+    if (res.ok) {
+      // Remove from local array
+      allProducts = allProducts.filter(p => String(p.id) !== String(id));
+      renderPendientes();
+      showToast('Producto eliminado');
+    } else {
+      const err = await res.json();
+      showToast(err.message || 'Error al eliminar', 'error');
     }
-
-    div.innerHTML = `
-           ${adminHtml}
-           ${isSoldOut && !isReserved ? '<div class="badge-sold">Agotado</div>' : ''}
-           <div class="stock" style="${token ? 'display:block;' : ''}">Stock: ${p.stock}</div>
-           <div class="image-container">
-             <img src="${p.imagen || '/images/default-earring.jpg'}" alt="${p.nombre}" loading="lazy">
-           </div>
-           <div class="card-info">
-             <h3>${p.nombre}</h3>
-             <span class="price">${formatPrice(p.precio)}</span>
-             <button class="btn-detail" type="button" style="width:100%; margin-top:10px; padding:8px; background:#f0f0f0; border:1px solid #ddd; border-radius:4px; cursor:pointer;"><i class="fa-solid fa-eye"></i> Ver Detalle</button>
-             ${clientActionHtml}
-           </div>
-        `;
-    container.appendChild(div);
-  });
+  } catch (e) { console.error(e); showToast('Error conexión', 'error'); }
 }
+
 
 window.testEmailNotification = async function () {
   if (!token) return;
@@ -1262,5 +1157,7 @@ window.testEmailNotification = async function () {
     showToast('Error de conexión', 'error');
     alert(e.message);
   }
-}
-// End of app.js
+};
+
+// --- REQUESTS MANAGEMENT (ADMIN) ---
+

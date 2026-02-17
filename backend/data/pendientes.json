@@ -8,7 +8,8 @@
     "imagen": "/images/1771064720916-766826731.jpg",
     "id": "1771064722405",
     "colors": [],
-    "photos": []
+    "photos": [],
+    "descripcion": ""
   },
   {
     "nombre": "Pentaflowers",
@@ -19,18 +20,20 @@
     "imagen": "/images/1771065674683-464948043.jpg",
     "id": "1771065675993",
     "colors": [],
-    "photos": []
+    "photos": [],
+    "descripcion": ""
   },
   {
     "nombre": "Mariposa",
     "precio": 10,
-    "stock": 5,
+    "stock": 9,
     "categoria": "Elegantes",
     "comprador": "",
     "imagen": "/images/1771065831792-452535619.jpg",
     "id": "1771065835822",
     "colors": [],
-    "photos": []
+    "photos": [],
+    "descripcion": ""
   },
   {
     "id": 1771104459258,
@@ -50,7 +53,7 @@
     "id": 1771105483736,
     "nombre": "herghg",
     "precio": 7,
-    "stock": 1,
+    "stock": 0,
     "categoria": "Otros",
     "comprador": "",
     "colors": [
@@ -66,7 +69,7 @@
     "id": 1771167135845,
     "nombre": "charms",
     "precio": 2,
-    "stock": 9,
+    "stock": 0,
     "categoria": "Charms",
     "comprador": "",
     "colors": [],
@@ -77,7 +80,7 @@
     "id": 1771167166862,
     "nombre": "Corazón",
     "precio": 5,
-    "stock": 1,
+    "stock": 0,
     "categoria": "Otros",
     "comprador": "",
     "colors": [],
@@ -88,7 +91,7 @@
     "id": 1771167217604,
     "nombre": "Fly",
     "precio": 5,
-    "stock": 2,
+    "stock": 0,
     "categoria": "Otros",
     "comprador": "",
     "colors": [],
@@ -99,7 +102,7 @@
     "id": 1771167263577,
     "nombre": "Flores P",
     "precio": 5,
-    "stock": 1,
+    "stock": 0,
     "categoria": "Otros",
     "comprador": "",
     "colors": [],
@@ -165,7 +168,7 @@
     "id": 1771167691943,
     "nombre": "minis",
     "precio": 5,
-    "stock": 10,
+    "stock": 6,
     "categoria": "Minis",
     "comprador": "",
     "colors": [],
