@@ -1,22 +1,22 @@
 [
   {
-    "id": "1771315883033",
-    "date": "2026-02-17T08:11:23.033Z",
+    "id": "1771347226313",
+    "date": "2026-02-17T16:53:46.313Z",
     "items": [
       {
-        "id": "1771065835822",
+        "id": "1771064722405",
         "qty": 1,
-        "nombre": "Mariposa",
-        "precio": 10
+        "nombre": "Margaritas",
+        "precio": 7
       }
     ],
     "customer": {
-      "nombre": "Sandro",
-      "apellidos": "Diaz",
-      "email": "sandro88zgz@gmail.com",
-      "telefono": "647749739"
+      "nombre": "Bea",
+      "apellidos": "Cuartero ",
+      "email": "beatrizcuartero15@gmail.com",
+      "telefono": "645599038"
     },
     "status": "Pendiente",
-    "total": 10
+    "total": 7
   }
 ]

@@ -256,9 +256,9 @@ main {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 2rem;
-  padding: 0 1rem;
+  padding: 0 10px;
 }
 
 .filter-btn {
@@ -388,8 +388,8 @@ main {
 /* --- Grid --- */
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 3rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
   padding-bottom: 3rem;
 }
 
@@ -584,14 +584,24 @@ body.is-admin .admin-actions {
 
 .modal-content {
   background: rgba(255, 255, 255, 0.95);
-  padding: 3rem;
+  padding: 2.5rem 1.5rem;
+  /* Reduced horizontal padding for mobile */
   border-radius: 20px;
-  width: 90%;
+  width: 95%;
   max-width: 450px;
+  max-height: 92vh;
+  /* Ensure it doesn't exceed viewport */
+  overflow-y: auto;
+  /* Allow internal scrolling if content is long */
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
   position: relative;
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.8);
+  box-sizing: border-box;
+}
+
+.modal-content.modal-large {
+  max-width: 900px;
 }
 
 .close {
@@ -892,14 +902,96 @@ footer {
   color: #555;
 }
 
+.comment-form {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 15px;
+}
+
+.comment-form input,
+.comment-form textarea {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: white;
+}
+
+.comment-form input {
+  flex: 1;
+}
+
+.comment-form textarea {
+  flex: 2;
+  height: 45px;
+  resize: none;
+}
+
+.btn-submit-comment {
+  background: var(--gold-accent);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+  white-space: nowrap;
+}
+
+.btn-submit-comment:hover {
+  background: var(--gold-light);
+}
+
 /* Responsive Detail */
 @media (max-width: 768px) {
   .detail-container {
     flex-direction: column;
+    gap: 1.5rem;
   }
 
   .main-image {
-    height: 300px;
+    height: auto;
+    max-height: 350px;
+  }
+
+  .detail-info-section {
+    padding: 0 5px;
+  }
+
+  #comment-form {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .comment-form input,
+  .comment-form textarea,
+  .btn-submit-comment {
+    width: 100% !important;
+    flex: none !important;
+    box-sizing: border-box;
+  }
+
+  .comment-form textarea {
+    height: 100px !important;
+  }
+
+  .detail-title {
+    font-size: 1.6rem;
+  }
+
+  header {
+    padding: 1rem;
+  }
+
+  .grid-container {
+    gap: 1.5rem;
+  }
+
+  .header-content h1 {
+    font-size: 1.8rem;
   }
 }
 

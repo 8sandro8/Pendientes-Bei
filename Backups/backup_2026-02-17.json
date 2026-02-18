@@ -1,0 +1,196 @@
+{
+  "message": "Backup generated",
+  "data": {
+    "products": [
+      {
+        "nombre": "Margaritas",
+        "precio": 7,
+        "stock": 5,
+        "categoria": "De Diario",
+        "comprador": "sandro kdflsaknfals",
+        "imagen": "/images/1771064720916-766826731.jpg",
+        "id": "1771064722405",
+        "colors": [],
+        "photos": [],
+        "descripcion": ""
+      },
+      {
+        "nombre": "Pentaflowers",
+        "precio": 7,
+        "stock": 5,
+        "categoria": "De Diario",
+        "comprador": "jsdfaasnf jsfajndsajf",
+        "imagen": "/images/1771065674683-464948043.jpg",
+        "id": "1771065675993",
+        "colors": [],
+        "photos": [],
+        "descripcion": ""
+      },
+      {
+        "nombre": "Mariposa",
+        "precio": 10,
+        "stock": 8,
+        "categoria": "Elegantes",
+        "comprador": "",
+        "imagen": "/images/1771065831792-452535619.jpg",
+        "id": "1771065835822",
+        "colors": [],
+        "photos": [],
+        "descripcion": ""
+      },
+      {
+        "id": 1771104459258,
+        "nombre": "Flores",
+        "precio": 5,
+        "stock": 0,
+        "categoria": "Elegantes",
+        "comprador": "",
+        "colors": [
+          "blanco",
+          "negro"
+        ],
+        "photos": [],
+        "imagen": "/images/upload-1771104457348-619075295.jpg"
+      },
+      {
+        "id": 1771105483736,
+        "nombre": "herghg",
+        "precio": 7,
+        "stock": 0,
+        "categoria": "Otros",
+        "comprador": "",
+        "colors": [
+          "rosa",
+          "verde",
+          "rojo",
+          "morado"
+        ],
+        "photos": [],
+        "imagen": "/images/upload-1771105481598-71205675.jpg"
+      },
+      {
+        "id": 1771167135845,
+        "nombre": "charms",
+        "precio": 2,
+        "stock": 0,
+        "categoria": "Charms",
+        "comprador": "",
+        "colors": [],
+        "photos": [],
+        "imagen": "/images/upload-1771167135061-51902536.jpeg"
+      },
+      {
+        "id": 1771167166862,
+        "nombre": "Corazón",
+        "precio": 5,
+        "stock": 0,
+        "categoria": "Otros",
+        "comprador": "",
+        "colors": [],
+        "photos": [],
+        "imagen": "/images/upload-1771167165948-75623718.jpeg"
+      },
+      {
+        "id": 1771167217604,
+        "nombre": "Fly",
+        "precio": 5,
+        "stock": 0,
+        "categoria": "Otros",
+        "comprador": "",
+        "colors": [],
+        "photos": [],
+        "imagen": "/images/upload-1771167217073-326930191.jpeg"
+      },
+      {
+        "id": 1771167263577,
+        "nombre": "Flores P",
+        "precio": 5,
+        "stock": 0,
+        "categoria": "Otros",
+        "comprador": "",
+        "colors": [],
+        "photos": [],
+        "imagen": "/images/upload-1771167262427-334906087.jpeg"
+      },
+      {
+        "id": 1771167328044,
+        "nombre": "Hada",
+        "precio": 5,
+        "stock": 1,
+        "categoria": "Otros",
+        "comprador": "",
+        "colors": [],
+        "photos": [],
+        "imagen": "/images/upload-1771167327166-471760280.jpeg"
+      },
+      {
+        "id": 1771167392422,
+        "nombre": "hoja",
+        "precio": 5,
+        "stock": 1,
+        "categoria": "Otros",
+        "comprador": "",
+        "colors": [],
+        "photos": [],
+        "imagen": "/images/upload-1771167391586-623076508.jpeg"
+      },
+      {
+        "id": 1771167438013,
+        "nombre": "Flower",
+        "precio": 10,
+        "stock": 1,
+        "categoria": "Otros",
+        "comprador": "",
+        "colors": [],
+        "photos": [],
+        "imagen": "/images/upload-1771167437388-342776459.jpeg"
+      },
+      {
+        "id": 1771167492444,
+        "nombre": "101",
+        "precio": 5,
+        "stock": 10,
+        "categoria": "Aros",
+        "comprador": "",
+        "colors": [],
+        "photos": [],
+        "imagen": "/images/upload-1771167491433-386096007.jpeg"
+      },
+      {
+        "id": 1771167589782,
+        "nombre": "trio",
+        "precio": 5,
+        "stock": 1,
+        "categoria": "Aros",
+        "comprador": "",
+        "colors": [],
+        "photos": [],
+        "imagen": "/images/upload-1771167589264-673956712.jpeg"
+      },
+      {
+        "id": 1771167691943,
+        "nombre": "minis",
+        "precio": 5,
+        "stock": 6,
+        "categoria": "Minis",
+        "comprador": "",
+        "colors": [],
+        "photos": [],
+        "imagen": "/images/upload-1771167691040-673697899.jpeg"
+      },
+      {
+        "id": 1771167782743,
+        "nombre": "Rayos",
+        "precio": 10,
+        "stock": 0,
+        "categoria": "Aros",
+        "comprador": "",
+        "colors": [],
+        "photos": [],
+        "imagen": "/images/upload-1771167781093-197420347.jpeg"
+      }
+    ],
+    "orders": [],
+    "requests": []
+  }
+}

@@ -2,7 +2,7 @@
   {
     "nombre": "Margaritas",
     "precio": 7,
-    "stock": 5,
+    "stock": 4,
     "categoria": "De Diario",
     "comprador": "sandro kdflsaknfals",
     "imagen": "/images/1771064720916-766826731.jpg",
@@ -25,11 +25,11 @@
   },
   {
     "nombre": "Mariposa",
-    "precio": 10,
-    "stock": 8,
+    "precio": 7,
+    "stock": 4,
     "categoria": "Elegantes",
     "comprador": "",
-    "imagen": "/images/1771065831792-452535619.jpg",
+    "imagen": "/images/upload-1771348169054-149170635.jpg",
     "id": "1771065835822",
     "colors": [],
     "photos": [],
@@ -95,7 +95,9 @@
     "categoria": "Otros",
     "comprador": "",
     "colors": [],
-    "photos": [],
+    "photos": [
+      "/images/upload-1771348004700-258507736.jpg"
+    ],
     "imagen": "/images/upload-1771167217073-326930191.jpeg"
   },
   {

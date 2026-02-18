@@ -1,0 +1,50 @@
+FECHA: 18 Feb 2026 - ESTADO ACTUAL: 100% OPERATIVO + ADAPTABILIDAD MÓVIL
+PROYECTO: Harmony Clay (Pendientes Bei)
+UBICACIÓN: c:\SynologyDrive2\SynologyDrive\Comun\Pendientes Bei\
+
+--- RESUMEN TÉCNICO ---
+
+El proyecto está ESTABLE y COMPLETAMENTE FUNCIONAL. Se han optimizado todos los elementos para que la web sea 100% responsiva y adaptable a móviles, tablets y ordenadores.
+
+--- ARQUITECTURA ACTUAL ---
+
+1. BACKEND (Node.js + Express):
+   - **Sistema de Correos:** Implementada una **Cola de Archivos** (`backend/data/email_queue.json`). El envío es asíncrono y desacoplado para no bloquear el servidor.
+   - **Gestión de Datos:** Almacenamiento local mediante archivos JSON en `backend/data/`.
+   - **Seguridad:** Implementados manejadores de errores globales y autenticación mediante JWT.
+
+2. FRONTEND (Vanilla JS + CSS):
+   - **Adaptabilidad Móvil (NUEVO):** 
+     - Modales con `max-height` y `overflow-y: auto` para asegurar acceso a botones en pantallas pequeñas.
+     - Formulario de comentarios responsivo (stack vertical en móvil).
+     - Grid de productos dinámico con espaciado optimizado.
+   - **Diseño:** Glassmorphism en el header, tipografías elegantes (Outfit, Playfair Display) y paleta Harmony Clay.
+
+--- CÓMO RETOMAR EL PROYECTO ---
+
+1. **Arrancar el servidor:**
+   - Script: `sh backend/restart_server.sh` (usa PM2).
+   - Manual: `cd backend && node index.js`
+
+2. **Estructura de Datos:**
+   - `backend/data/pendientes.json`: Catálogo.
+   - `backend/data/orders.json`: Pedidos.
+   - `backend/data/requests.json`: Solicitudes ("Solicitar").
+   - `backend/data/email_queue.json`: Emails en cola.
+
+3. **Puntos Clave del Código:**
+   - `frontend/style.css`: Controla toda la adaptabilidad mediante Media Queries.
+   - `frontend/index.html`: Estructura limpia (standardized modal classes: `modal-large`).
+
+--- HISTORIAL DE SOLUCIONES RECIENTES ---
+
+- **Problema:** Botones de modales ocultos en móvil.
+- **Solución:** Estandarización de modales con clases CSS, eliminando estilos inline y añadiendo scroll interno.
+- **Problema:** Formulario de comentarios comprimido en horizontal.
+- **Solución:** Implementación de flex-direction column en Media Queries para móviles.
+
+--- CREDENCIALES ---
+- Correo: harmonyyclay@gmail.com
+- Admin Pass: [En .env o hardcodeada]
+
+¡La web está lista y adaptada a todos los dispositivos!

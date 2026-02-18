@@ -474,3 +474,63 @@ Stack: Error: Email send timeout (10s)
 [2026-02-17T08:11:56.795Z] EMAIL SENT SUCCESS: <af00a36e-d961-8fba-504b-92bdeebe567e@gmail.com> in 1022ms
 [2026-02-17T08:11:56.795Z] [QUEUE-SUCCESS] Finished 17713158830393a6dw0cql
 [2026-02-17T08:11:58.602Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T08:16:26.322Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T11:18:39.667Z] [QUEUE] Added email for harmonyyclay@gmail.com: Nueva Solicitud - Harmony Clay
+[2026-02-17T11:18:50.635Z] [QUEUE-PROCESS] Processing 1771327119661rgggv2r4g for harmonyyclay@gmail.com
+[2026-02-17T11:18:52.689Z] Attempting to send email to harmonyyclay@gmail.com: Nueva Solicitud - Harmony Clay
+[2026-02-17T11:19:00.864Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T11:19:06.008Z] EMAIL ERROR: Email send timeout (10s) 
+Stack: Error: Email send timeout (10s)
+    at Timeout._onTimeout (/volume1/Compartida/Comun/Pendientes Bei/backend/index.js:106:31)
+    at listOnTimeout (node:internal/timers:588:17)
+    at process.processTimers (node:internal/timers:523:7)
+[2026-02-17T11:19:06.223Z] [QUEUE-RETRY] Failed 1771327119661rgggv2r4g, incrementing attempts.
+[2026-02-17T11:19:10.298Z] [QUEUE-PROCESS] Processing 1771327119661rgggv2r4g for harmonyyclay@gmail.com
+[2026-02-17T11:19:10.298Z] Attempting to send email to harmonyyclay@gmail.com: Nueva Solicitud - Harmony Clay
+[2026-02-17T11:19:11.567Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T11:19:20.406Z] EMAIL ERROR: Email send timeout (10s) 
+Stack: Error: Email send timeout (10s)
+    at Timeout._onTimeout (/volume1/Compartida/Comun/Pendientes Bei/backend/index.js:106:31)
+    at listOnTimeout (node:internal/timers:588:17)
+    at process.processTimers (node:internal/timers:523:7)
+[2026-02-17T11:19:20.407Z] [QUEUE-RETRY] Failed 1771327119661rgggv2r4g, incrementing attempts.
+[2026-02-17T11:19:24.416Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T11:19:30.299Z] [QUEUE-PROCESS] Processing 1771327119661rgggv2r4g for harmonyyclay@gmail.com
+[2026-02-17T11:19:30.300Z] Attempting to send email to harmonyyclay@gmail.com: Nueva Solicitud - Harmony Clay
+[2026-02-17T11:19:32.090Z] EMAIL SENT SUCCESS: <a593592e-2015-af7f-bd8e-cf8621b00a55@gmail.com> in 1777ms
+[2026-02-17T11:19:32.091Z] [QUEUE-SUCCESS] Finished 1771327119661rgggv2r4g
+[2026-02-17T11:19:40.847Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T12:06:44.094Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T16:53:46.355Z] [QUEUE] Added email for harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-17T16:53:46.449Z] [QUEUE] Added email for beatrizcuartero15@gmail.com: Confirmación de Pedido - Harmony Clay
+[2026-02-17T16:53:50.828Z] [QUEUE-PROCESS] Processing 177134722635390uh23cfd for harmonyyclay@gmail.com
+[2026-02-17T16:53:51.009Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-17T16:53:56.868Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T16:54:01.133Z] EMAIL ERROR: Email send timeout (10s) 
+Stack: Error: Email send timeout (10s)
+    at Timeout._onTimeout (/volume1/Compartida/Comun/Pendientes Bei/backend/index.js:106:31)
+    at listOnTimeout (node:internal/timers:588:17)
+    at process.processTimers (node:internal/timers:523:7)
+[2026-02-17T16:54:01.134Z] [QUEUE-RETRY] Failed 177134722635390uh23cfd, incrementing attempts.
+[2026-02-17T16:54:07.052Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T16:54:10.819Z] [QUEUE-PROCESS] Processing 177134722635390uh23cfd for harmonyyclay@gmail.com
+[2026-02-17T16:54:10.820Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-17T16:54:17.084Z] [QUEUE-PROCESS] Processing 177134722635390uh23cfd for harmonyyclay@gmail.com
+[2026-02-17T16:54:17.086Z] Attempting to send email to harmonyyclay@gmail.com: Nuevo Pedido - Harmony Clay
+[2026-02-17T16:54:17.087Z] Initializing detailed transporter for: harmonyyclay@gmail.com
+[2026-02-17T16:54:18.649Z] EMAIL SENT SUCCESS: <ac09c551-e499-ebb1-aef9-561ecf880b88@gmail.com> in 1541ms
+[2026-02-17T16:54:18.650Z] [QUEUE-SUCCESS] Finished 177134722635390uh23cfd
+[2026-02-17T16:54:21.012Z] EMAIL ERROR: Email send timeout (10s) 
+Stack: Error: Email send timeout (10s)
+    at Timeout._onTimeout (/volume1/Compartida/Comun/Pendientes Bei/backend/index.js:106:31)
+    at listOnTimeout (node:internal/timers:588:17)
+    at process.processTimers (node:internal/timers:523:7)
+[2026-02-17T16:54:21.013Z] [QUEUE-RETRY] Failed 177134722635390uh23cfd, incrementing attempts.
+[2026-02-17T16:54:24.821Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T16:54:30.758Z] [QUEUE-PROCESS] Processing 17713472263564w3q04k2g for beatrizcuartero15@gmail.com
+[2026-02-17T16:54:30.759Z] Attempting to send email to beatrizcuartero15@gmail.com: Confirmación de Pedido - Harmony Clay
+[2026-02-17T16:54:32.185Z] EMAIL SENT SUCCESS: <06482bf3-0f5c-0e55-d464-60964a665bc9@gmail.com> in 1426ms
+[2026-02-17T16:54:32.186Z] [QUEUE-SUCCESS] Finished 17713472263564w3q04k2g
+[2026-02-17T16:54:34.013Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T17:06:57.008Z] [SYSTEM] Email Queue Processor started (10s interval)
+[2026-02-17T17:09:43.155Z] [SYSTEM] Email Queue Processor started (10s interval)

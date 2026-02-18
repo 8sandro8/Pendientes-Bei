@@ -198,7 +198,7 @@
 
   <!-- MODAL: DETALLE PRODUCTO -->
   <div id="detail-modal" class="modal">
-    <div class="modal-content" style="max-width: 900px; width: 95%; max-height: 90vh; overflow-y: auto;">
+    <div class="modal-content modal-large">
       <span class="close" onclick="closeModal('detail-modal')">&times;</span>
       <div class="detail-container">
         <!-- Left: Images -->
@@ -270,12 +270,10 @@
           <p style="color:#999;font-style:italic;">No hay comentarios todavía. ¡Sé el primero!</p>
         </div>
 
-        <form id="comment-form" style="display:flex; gap:10px; align-items:flex-start;">
-          <input type="text" id="comment-user" placeholder="Tu nombre" required style="flex:1;">
-          <textarea id="comment-text" placeholder="¿Qué te ha parecido?" required
-            style="flex:2; height:40px; padding:10px;"></textarea>
-          <button type="submit" class="btn-primary"
-            style="background:var(--gold-accent); color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer;">
+        <form id="comment-form" class="comment-form">
+          <input type="text" id="comment-user" placeholder="Tu nombre" required>
+          <textarea id="comment-text" placeholder="¿Qué te ha parecido?" required></textarea>
+          <button type="submit" class="btn-submit-comment">
             Enviar
           </button>
         </form>
@@ -334,7 +332,7 @@
 
   <!-- MODAL: PEDIDOS (ADMIN) -->
   <div id="orders-modal" class="modal">
-    <div class="modal-content" style="max-width: 900px; width: 95%;">
+    <div class="modal-content modal-large">
       <div
         style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; padding-bottom:1rem; border-bottom:1px solid #eee;">
         <h2 style="margin:0; color:var(--primary-color);">Gestión de Pedidos</h2>
@@ -372,7 +370,7 @@
 
   <!-- Requests List Modal (Admin) -->
   <div id="requests-list-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 800px; width: 90%;">
+    <div class="modal-content modal-large">
       <div style="position:relative;">
         <span class="close-modal" onclick="closeModal('requests-list-modal')"
           style="position:absolute; right:0; top:-10px; font-size:2rem; cursor:pointer; color:#333;">&times;</span>
