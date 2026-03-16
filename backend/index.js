@@ -25,7 +25,7 @@ if (!ADMIN_PASSWORD) {
   process.exit(1);
 }
 
-const frontendPath = path.join(__dirname, '../frontend-react/dist');
+const frontendPath = path.join(__dirname, 'frontend-react/dist');
 console.log('[STARTUP] Serving static from:', frontendPath);
 
 // ... (middleware content) ...
@@ -675,17 +675,135 @@ app.post('/api/orders', async (req, res) => {
     orders.push(newOrder);
     await writeJSON(ORDERS_FILE, orders);
     
-    // Send email notification
+    // Send email notification to admin
     try {
+      const itemsHtml = newOrder.items.map(item => `
+        <tr>
+          <td style="padding: 10px; border-bottom: 1px solid #eee;">
+            <img src="${item.imagen ? 'https://www.harmonyclay.es' + item.imagen : 'https://www.harmonyclay.es/images/logo-harmony.jpg'}" alt="${item.nombre}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+          </td>
+          <td style="padding: 10px; border-bottom: 1px solid #eee;">
+            <strong>${item.nombre}</strong><br>
+            <small style="color: #666;">${item.color ? 'Color: ' + item.color : ''}</small>
+          </td>
+          <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.qty}</td>
+          <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.precio}€</td>
+          <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.precio * item.qty}€</td>
+        </tr>
+      `).join('');
+      
+      const adminEmailHtml = `
+        <div style="font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto;">
+          <div style="background: linear-gradient(135deg, #d4a5a5, #9b6b6b); padding: 20px; text-align: center;">
+            <h1 style="color: white; margin: 0;">¡Nuevo pedido recibido!</h1>
+          </div>
+          <div style="padding: 20px; background: #f9f9f9;">
+            <p><strong>Cliente:</strong> ${newOrder.customer.nombre} ${newOrder.customer.apellidos || ''}</p>
+            <p><strong>Email:</strong> ${newOrder.customer.email}</p>
+            <p><strong>Teléfono:</strong> ${newOrder.customer.telefono}</p>
+            <p><strong>Método de envío:</strong> ${newOrder.shippingMethod === 'recogida' ? 'Recogida en tienda' : newOrder.shippingMethod === 'mano' ? 'Entrega en mano' : 'Envío a domicilio'}</p>
+            ${newOrder.customer.direccion ? `<p><strong>Dirección:</strong> ${newOrder.customer.direccion}</p>` : ''}
+            <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+            <h3>Productos pedidos:</h3>
+            <table style="width: 100%; border-collapse: collapse; background: white;">
+              <thead>
+                <tr style="background: #eee;">
+                  <th style="padding: 10px; text-align: left;">Imagen</th>
+                  <th style="padding: 10px; text-align: left;">Producto</th>
+                  <th style="padding: 10px; text-align: left;">Cantidad</th>
+                  <th style="padding: 10px; text-align: left;">Precio ud.</th>
+                  <th style="padding: 10px; text-align: left;">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${itemsHtml}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="4" style="padding: 10px; text-align: right; font-weight: bold;">Total:</td>
+                  <td style="padding: 10px; font-weight: bold; color: #9b6b6b;">${newOrder.total}€</td>
+                </tr>
+              </tfoot>
+            </table>
+            <p style="margin-top: 20px; color: #888;">Pedido #${newOrder.id.slice(-6)}</p>
+          </div>
+        </div>
+      `;
+      
       await sendEmailNotification(
-        `Nuevo pedido #${newOrder.id.slice(-6)}`,
+        `Nuevo pedido #${newOrder.id.slice(-6)} - ${newOrder.total}€`,
         `Nuevo pedido de ${newOrder.customer.nombre} - Total: ${newOrder.total}€`,
         null,
-        null,
+        adminEmailHtml,
         []
       );
     } catch (emailErr) {
-      console.error('Error sending email:', emailErr);
+      console.error('Error sending email to admin:', emailErr);
+    }
+    
+    // Send confirmation email to customer
+    try {
+      if (newOrder.customer?.email) {
+        const itemsHtml = newOrder.items.map(item => `
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+              <img src="${item.imagen ? 'https://www.harmonyclay.es' + item.imagen : 'https://www.harmonyclay.es/images/logo-harmony.jpg'}" alt="${item.nombre}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;">
+            </td>
+            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+              ${item.nombre}<br>
+              <small style="color: #666;">${item.color || ''}</small>
+            </td>
+            <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.qty}</td>
+            <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.precio * item.qty}€</td>
+          </tr>
+        `).join('');
+        
+        const customerEmailHtml = `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #d4a5a5, #9b6b6b); padding: 20px; text-align: center;">
+              <h1 style="color: white; margin: 0;">¡Gracias por tu pedido!</h1>
+            </div>
+            <div style="padding: 20px; background: #f9f9f9;">
+              <p>Hola <strong>${newOrder.customer.nombre}</strong>,</p>
+              <p>Tu pedido ha sido recibido y está siendo procesado. Te avisaremos cuando esté listo para enviar o recoger.</p>
+              <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+              <h3>Detalles del pedido:</h3>
+              <p><strong>Número de pedido:</strong> #${newOrder.id.slice(-6)}</p>
+              <p><strong>Método de envío:</strong> ${newOrder.shippingMethod === 'recogida' ? 'Recogida en tienda' : newOrder.shippingMethod === 'mano' ? 'Entrega en mano' : 'Envío a domicilio'}</p>
+              <table style="width: 100%; border-collapse: collapse; background: white; margin-top: 15px;">
+                <thead>
+                  <tr style="background: #eee;">
+                    <th style="padding: 8px; text-align: left;">Imagen</th>
+                    <th style="padding: 8px; text-align: left;">Producto</th>
+                    <th style="padding: 8px; text-align: left;">Cantidad</th>
+                    <th style="padding: 8px; text-align: left;">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${itemsHtml}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="3" style="padding: 10px; text-align: right; font-weight: bold;">Total:</td>
+                    <td style="padding: 10px; font-weight: bold; color: #9b6b6b;">${newOrder.total}€</td>
+                  </tr>
+                </tfoot>
+              </table>
+              <p style="margin-top: 20px; color: #888;">¡Gracias por confiar en Harmony Clay!</p>
+            </div>
+          </div>
+        `;
+        
+        await sendEmailNotification(
+          `Confirmación de tu pedido #${newOrder.id.slice(-6)}`,
+          `Hola ${newOrder.customer.nombre}, tu pedido ha sido recibido.`,
+          newOrder.customer.email,
+          customerEmailHtml,
+          []
+        );
+      }
+    } catch (customerEmailErr) {
+      console.error('Error sending email to customer:', customerEmailErr);
     }
     
     res.json(newOrder);
@@ -773,8 +891,14 @@ app.post('/api/contact', async (req, res) => {
 });
 
 // --- CATCH-ALL ROUTE (MUST BE LAST) ---
-// Fix for "Cannot GET /" and SPA routing
+// Fix for "Cannot GET /" and SPA routing - solo para rutas sin extensión
 app.get('*', (req, res) => {
+  // Si la ruta tiene extensión (css, js, img, etc), dejar que express.static la maneje
+  const hasExtension = req.path.includes('.');
+  if (hasExtension) {
+    return res.status(404).send('Not found');
+  }
+  
   const fullPath = path.join(frontendPath, 'index.html');
   console.log('[ROUTE-FALLBACK] Serving index.html from:', fullPath);
   res.sendFile(fullPath, (err) => {
@@ -886,7 +1010,7 @@ app.put('/api/i18n', verifyToken, async (req, res) => {
 });
 
 // START SERVER
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor escuchando en http://0.0.0.0:${PORT}`);

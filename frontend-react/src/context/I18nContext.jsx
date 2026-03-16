@@ -3,14 +3,14 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const I18nContext = createContext();
 
 export function I18nProvider({ children }) {
-  const [translations, setTranslations] = useState(null);
+  const [translations, setTranslations] = useState({});
   const [idioma, setIdioma] = useState('es');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const savedIdioma = localStorage.getItem('idioma') || 'es';
     setIdioma(savedIdioma);
-    loadTranslations(savedIdioma);
+    setLoading(false);
   }, []);
 
   const loadTranslations = async (lang) => {
@@ -30,7 +30,6 @@ export function I18nProvider({ children }) {
   const changeIdioma = (newIdioma) => {
     setIdioma(newIdioma);
     localStorage.setItem('idioma', newIdioma);
-    loadTranslations(newIdioma);
   };
 
   const t = (key) => {

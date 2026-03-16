@@ -104,11 +104,13 @@ function AppContent() {
 function App() {
   return (
     <I18nProvider>
-      <CartProvider>
-        <AdminProvider>
-          <AppContent />
-        </AdminProvider>
-      </CartProvider>
+      <FavoritesProvider>
+        <CartProvider>
+          <AdminProvider>
+            <AppContent />
+          </AdminProvider>
+        </CartProvider>
+      </FavoritesProvider>
     </I18nProvider>
   );
 }

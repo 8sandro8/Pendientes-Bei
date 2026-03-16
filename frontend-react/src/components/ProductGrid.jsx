@@ -138,6 +138,17 @@ export default function ProductGrid({ onOpenModal, products: externalProducts, i
             {isAdmin ? 'Gestión de Productos' : 'Nuestra Colección'}
           </h2>
 
+          {isAdmin && (
+            <div className="flex justify-center mb-6">
+              <button
+                onClick={() => setEditingProduct({})}
+                className="px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors font-semibold"
+              >
+                + Nuevo Producto
+              </button>
+            </div>
+          )}
+
           <div className="flex flex-wrap justify-center gap-2 mb-6">
             {categories.map(cat => (
               <button

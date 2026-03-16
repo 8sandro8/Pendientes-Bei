@@ -5,11 +5,9 @@ services:
     container_name: pendientes-bei-app
     restart: always
     user: root
-    ports:
-      - "3017:3017"
+    network_mode: host
     volumes:
-      - ./data:/app/data
-      - ./.env:/app/.env
+      - ./frontend-react:/app/frontend-react
     environment:
       - NODE_ENV=production
-      - PORT=3017
+      - PORT=3001
