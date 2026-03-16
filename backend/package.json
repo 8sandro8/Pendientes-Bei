@@ -1,0 +1,23 @@
+{
+  "name": "pendientes-app",
+  "version": "1.0.0",
+  "description": "Una aplicación para mostrar pendientes hechos a mano.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.4",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.10.1",
+    "multer": "^2.0.2",
+    "nodemailer": "^8.0.1",
+    "pm2": "^6.0.14"
+  }
+}

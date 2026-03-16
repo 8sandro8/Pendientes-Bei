@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:wght@700&display=swap');
+
+@theme {
+  --color-primary: #1a1a1a;
+  --color-secondary: #f5f0eb;
+  --color-accent: #d4a574;
+  --color-cream: #f5f0eb;
+  --color-error: #c45c5c;
+  --color-success: #5c9c6c;
+  
+  --font-display: "Playfair Display", serif;
+  --font-body: "Outfit", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  color: #333;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}

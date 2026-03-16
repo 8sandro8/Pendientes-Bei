@@ -1,0 +1,35 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+pm2.log
+server.log
+email_debug.log
+
+# Data files
+backend/data/*.json
+!backend/data/.gitkeep
+
+# Backups
+Backups/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build
+frontend-react/dist/
+dist/

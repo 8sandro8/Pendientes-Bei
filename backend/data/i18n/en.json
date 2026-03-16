@@ -1,0 +1,59 @@
+{
+  "general": {
+    "titulo": "Harmony Clay",
+    "subtitulo": "Handmade Earrings",
+    "inicio": "Home",
+    "tienda": "Shop",
+    "carrito": "Cart",
+    "admin": "Admin",
+    "idioma": "Language"
+  },
+  "productos": {
+    "ver": "View",
+    "agregar": "Add to cart",
+    "stock": "Stock",
+    "sinStock": "Out of stock",
+    "disponible": "Available",
+    "precio": "Price",
+    "categoria": "Category",
+    "descripcion": "Description",
+    "fotos": "Photos",
+    "fotoPrincipal": "Main photo",
+    "todasLasFotos": "All photos",
+    "seleccionarPrincipal": "Select as main"
+  },
+  "carrito": {
+    "vacio": "Your cart is empty",
+    "total": "Total",
+    "vaciar": "Empty cart",
+    "finalizar": "Checkout",
+    "cantidad": "Quantity",
+    "eliminar": "Remove"
+  },
+  "formularios": {
+    "nombre": "Name",
+    "email": "Email",
+    "telefono": "Phone",
+    "mensaje": "Message",
+    "enviar": "Send",
+    "cancelar": "Cancel",
+    "guardar": "Save",
+    "editar": "Edit",
+    "eliminar": "Delete",
+    "buscar": "Search"
+  },
+  "admin": {
+    "productos": "Products",
+    "pedidos": "Orders",
+    "nuevoProducto": "New product",
+    "editarProducto": "Edit product",
+    "subirFoto": "Upload photo",
+    "subirFotos": "Upload multiple photos"
+  },
+  "mensajes": {
+    "gracias": "Thank you for your purchase",
+    "error": "An error occurred",
+    "exito": "Operation successful",
+    "confirmar": "Are you sure?"
+  }
+}

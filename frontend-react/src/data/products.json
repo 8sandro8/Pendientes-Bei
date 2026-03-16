@@ -1,0 +1,281 @@
+[
+  {
+    "nombre": "Margaritas",
+    "precio": 7,
+    "stock": 3,
+    "categoria": "De Diario",
+    "comprador": "sandro kdflsaknfals",
+    "imagen": "/images/1771064720916-766826731.jpg",
+    "id": "1771064722405",
+    "colors": [],
+    "photos": [],
+    "descripcion": ""
+  },
+  {
+    "nombre": "Pentaflowers",
+    "precio": 7,
+    "stock": 4,
+    "categoria": "De Diario",
+    "comprador": "jsdfaasnf jsfajndsajf",
+    "imagen": "/images/1771065674683-464948043.jpg",
+    "id": "1771065675993",
+    "colors": [],
+    "photos": [],
+    "descripcion": ""
+  },
+  {
+    "nombre": "Mariposa",
+    "precio": 7,
+    "stock": 4,
+    "categoria": "Elegantes",
+    "comprador": "",
+    "imagen": "/images/upload-1771348169054-149170635.jpg",
+    "id": "1771065835822",
+    "colors": [
+      "blanco",
+      "rosa",
+      "morado"
+    ],
+    "photos": [],
+    "descripcion": ""
+  },
+  {
+    "id": 1771104459258,
+    "nombre": "Flores",
+    "precio": 5,
+    "stock": 2,
+    "categoria": "Elegantes",
+    "comprador": "",
+    "colors": [
+      "blanco",
+      "negro",
+      "verde"
+    ],
+    "photos": [
+      "/images/upload-1771620051672-10149797.jpg"
+    ],
+    "imagen": "/images/upload-1771104457348-619075295.jpg",
+    "descripcion": ""
+  },
+  {
+    "id": 1771105483736,
+    "nombre": "herghg",
+    "precio": 7,
+    "stock": 0,
+    "categoria": "Otros",
+    "comprador": "",
+    "colors": [
+      "rosa",
+      "verde",
+      "rojo",
+      "morado"
+    ],
+    "photos": [],
+    "imagen": "/images/upload-1771105481598-71205675.jpg"
+  },
+  {
+    "id": 1771167135845,
+    "nombre": "charms",
+    "precio": 2,
+    "stock": 0,
+    "categoria": "Charms",
+    "comprador": "",
+    "colors": [],
+    "photos": [],
+    "imagen": "/images/upload-1771167135061-51902536.jpeg"
+  },
+  {
+    "id": 1771167166862,
+    "nombre": "Corazón",
+    "precio": 5,
+    "stock": 0,
+    "categoria": "Otros",
+    "comprador": "",
+    "colors": [],
+    "photos": [],
+    "imagen": "/images/upload-1771167165948-75623718.jpeg"
+  },
+  {
+    "id": 1771167217604,
+    "nombre": "Fly",
+    "precio": 5,
+    "stock": 0,
+    "categoria": "Otros",
+    "comprador": "",
+    "colors": [],
+    "photos": [
+      "/images/upload-1771348004700-258507736.jpg",
+      "/images/upload-1771442047027-591373687.jpg"
+    ],
+    "imagen": "/images/upload-1771167217073-326930191.jpeg",
+    "descripcion": ""
+  },
+  {
+    "id": 1771167263577,
+    "nombre": "Flores P",
+    "precio": 5,
+    "stock": 0,
+    "categoria": "Otros",
+    "comprador": "",
+    "colors": [],
+    "photos": [],
+    "imagen": "/images/upload-1771167262427-334906087.jpeg"
+  },
+  {
+    "id": 1771167328044,
+    "nombre": "Hada",
+    "precio": 5,
+    "stock": 0,
+    "categoria": "Otros",
+    "comprador": "",
+    "colors": [],
+    "photos": [],
+    "imagen": "/images/upload-1771167327166-471760280.jpeg"
+  },
+  {
+    "id": 1771167392422,
+    "nombre": "hoja",
+    "precio": 5,
+    "stock": 1,
+    "categoria": "Otros",
+    "comprador": "",
+    "colors": [],
+    "photos": [],
+    "imagen": "/images/upload-1771621364586-516280921.jpg",
+    "descripcion": ""
+  },
+  {
+    "id": 1771167438013,
+    "nombre": "Flower",
+    "precio": 10,
+    "stock": 2,
+    "categoria": "Elegantes",
+    "comprador": "",
+    "colors": [
+      "blanco",
+      "morado"
+    ],
+    "photos": [],
+    "imagen": "/images/upload-1771620603182-663128999.jpg",
+    "descripcion": ""
+  },
+  {
+    "id": 1771167492444,
+    "nombre": "101",
+    "precio": 6,
+    "stock": 9,
+    "categoria": "",
+    "comprador": "",
+    "colors": [
+      "rojo",
+      "rosa",
+      "morado",
+      "verde"
+    ],
+    "photos": [
+      "/images/upload-1771621041352-236974171.jpg",
+      "/images/upload-1771621063483-152009044.jpg",
+      "/images/upload-1771621075749-23121192.jpg"
+    ],
+    "imagen": "/images/upload-1771703238502-326955830.jpg",
+    "descripcion": ""
+  },
+  {
+    "id": 1771167589782,
+    "nombre": "trio",
+    "precio": 5,
+    "stock": 0,
+    "categoria": "Aros",
+    "comprador": "",
+    "colors": [],
+    "photos": [],
+    "imagen": "/images/upload-1771167589264-673956712.jpeg"
+  },
+  {
+    "id": 1771167691943,
+    "nombre": "minis",
+    "precio": 5,
+    "stock": 3,
+    "categoria": "Minis",
+    "comprador": "",
+    "colors": [],
+    "photos": [],
+    "imagen": "/images/upload-1771167691040-673697899.jpeg"
+  },
+  {
+    "id": 1771167782743,
+    "nombre": "Rayos",
+    "precio": 10,
+    "stock": 0,
+    "categoria": "Aros",
+    "comprador": "",
+    "colors": [],
+    "photos": [],
+    "imagen": "/images/upload-1771167781093-197420347.jpeg"
+  },
+  {
+    "id": 1771702347843,
+    "nombre": "Largo",
+    "precio": 7,
+    "stock": 4,
+    "categoria": "Otros",
+    "comprador": "",
+    "descripcion": "",
+    "colors": [
+      "rosa",
+      "rojo"
+    ],
+    "photos": [],
+    "imagen": "/images/upload-1771702346400-676294028.jpg"
+  },
+  {
+    "id": 1771702824553,
+    "nombre": "G",
+    "precio": 7,
+    "stock": 5,
+    "categoria": "Otros",
+    "comprador": "",
+    "descripcion": "",
+    "colors": [
+      "verde",
+      "rojo",
+      "blanco",
+      "negro",
+      "azul",
+      "morado",
+      "rosa"
+    ],
+    "photos": [],
+    "imagen": "/images/upload-1771702820993-19489561.jpg"
+  },
+  {
+    "id": 1772367503587,
+    "nombre": "Estrellitas ",
+    "precio": 3,
+    "stock": 4,
+    "categoria": "Minis",
+    "comprador": "",
+    "descripcion": "",
+    "colors": [
+      "Rojo",
+      "rosa"
+    ],
+    "photos": [],
+    "imagen": "/images/upload-1772367502301-390306586.jpg"
+  },
+  {
+    "id": 1772367504933,
+    "nombre": "Estrellitas ",
+    "precio": 3,
+    "stock": 4,
+    "categoria": "Minis",
+    "comprador": "",
+    "descripcion": "",
+    "colors": [
+      "Rojo",
+      "rosa"
+    ],
+    "photos": [],
+    "imagen": "/images/upload-1772367503661-239944865.jpg"
+  }
+]

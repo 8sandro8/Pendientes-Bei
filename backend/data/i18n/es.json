@@ -1,0 +1,59 @@
+{
+  "general": {
+    "titulo": "Harmony Clay",
+    "subtitulo": "Pendientes Artesanales",
+    "inicio": "Inicio",
+    "tienda": "Tienda",
+    "carrito": "Carrito",
+    "admin": "Administración",
+    "idioma": "Idioma"
+  },
+  "productos": {
+    "ver": "Ver",
+    "agregar": "Añadir al carrito",
+    "stock": "Stock",
+    "sinStock": "Sin stock",
+    "disponible": "Disponible",
+    "precio": "Precio",
+    "categoria": "Categoría",
+    "descripcion": "Descripción",
+    "fotos": "Fotos",
+    "fotoPrincipal": "Foto principal",
+    "todasLasFotos": "Todas las fotos",
+    "seleccionarPrincipal": "Seleccionar como principal"
+  },
+  "carrito": {
+    "vacio": "Tu carrito está vacío",
+    "total": "Total",
+    "vaciar": "Vaciar carrito",
+    "finalizar": "Finalizar compra",
+    "cantidad": "Cantidad",
+    "eliminar": "Eliminar"
+  },
+  "formularios": {
+    "nombre": "Nombre",
+    "email": "Email",
+    "telefono": "Teléfono",
+    "mensaje": "Mensaje",
+    "enviar": "Enviar",
+    "cancelar": "Cancelar",
+    "guardar": "Guardar",
+    "editar": "Editar",
+    "eliminar": "Eliminar",
+    "buscar": "Buscar"
+  },
+  "admin": {
+    "productos": "Productos",
+    "pedidos": "Pedidos",
+    "nuevoProducto": "Nuevo producto",
+    "editarProducto": "Editar producto",
+    "subirFoto": "Subir foto",
+    "subirFotos": "Subir varias fotos"
+  },
+  "mensajes": {
+    "gracias": "Gracias por tu compra",
+    "error": "Ha ocurrido un error",
+    "exito": "Operación realizada con éxito",
+    "confirmar": "¿Estás seguro?"
+  }
+}

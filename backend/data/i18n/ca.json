@@ -1,0 +1,59 @@
+{
+  "general": {
+    "titulo": "Harmony Clay",
+    "subtitul": "Arracades Artesanals",
+    "inicio": "Inici",
+    "tienda": "Botiga",
+    "carrito": "Carret",
+    "admin": "Administració",
+    "idioma": "Idioma"
+  },
+  "productes": {
+    "veure": "Veure",
+    "afegir": "Afegir al carret",
+    "stock": "Estoc",
+    "sinStock": "Fora d'estoc",
+    "disponible": "Disponible",
+    "preu": "Preu",
+    "categoria": "Categoria",
+    "descripcio": "Descripció",
+    "fotos": "Fotos",
+    "fotoPrincipal": "Foto principal",
+    "totesLesFotos": "Totes les fotos",
+    "seleccionarPrincipal": "Seleccionar com a principal"
+  },
+  "carret": {
+    "buit": "El teu carret està buit",
+    "total": "Total",
+    "buidar": "Buidar carret",
+    "finalitzar": "Finalitzar compra",
+    "quantitat": "Quantitat",
+    "eliminar": "Eliminar"
+  },
+  "formularis": {
+    "nom": "Nom",
+    "email": "Email",
+    "telefon": "Telèfon",
+    "missatge": "Missatge",
+    "enviar": "Enviar",
+    "cancelar": "Cancel·lar",
+    "guardar": "Guardar",
+    "editar": "Editar",
+    "eliminar": "Eliminar",
+    "buscar": "Buscar"
+  },
+  "admin": {
+    "productes": "Productes",
+    "comandes": "Comandes",
+    "nouProducte": "Nou producte",
+    "editarProducte": "Editar producte",
+    "pujarFoto": "Pujar foto",
+    "pujarFotos": "Pujar varies fotos"
+  },
+  "missatges": {
+    "gracies": "Gràcies per la teva compra",
+    "error": "Ha ocorregut un error",
+    "exit": "Operació realitzada amb èxit",
+    "confirmar": "Estàs segur?"
+  }
+}
