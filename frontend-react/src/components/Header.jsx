@@ -1,23 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAdmin } from '../context/AdminContext';
-import { useI18n } from '../context/I18nContext';
-
-const BANDERAS = {
-  es: '🇪🇸',
-  en: '🇬🇧',
-  ca: '🇪🇸'
-};
 
 export default function Header({ onLoginSuccess, onShowOrders }) {
   const { toggleCart, totalItems } = useCart();
   const { isAuthenticated, login, logout } = useAdmin();
-  const { idioma, changeIdioma } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [showLangMenu, setShowLangMenu] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -58,31 +49,6 @@ export default function Header({ onLoginSuccess, onShowOrders }) {
           </div>
 
           <div className="flex-1 flex justify-end items-center gap-3">
-            {/* Selector de idioma */}
-            <div className="relative">
-              <button 
-                onClick={() => setShowLangMenu(!showLangMenu)}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors text-lg"
-                title="Cambiar idioma"
-              >
-                {BANDERAS[idioma]}
-              </button>
-              {showLangMenu && (
-                <div className="absolute right-0 top-full mt-1 bg-white rounded-lg shadow-lg py-1 min-w-[120px]">
-                  {['es', 'en', 'ca'].map((lang) => (
-                    <button
-                      key={lang}
-                      onClick={() => { changeIdioma(lang); setShowLangMenu(false); }}
-                      className={`w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-2 ${idioma === lang ? 'bg-gray-50 font-semibold' : ''}`}
-                    >
-                      <span>{BANDERAS[lang]}</span>
-                      <span className="text-sm capitalize">{lang === 'es' ? 'Español' : lang === 'en' ? 'English' : 'Català'}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
             {isAuthenticated ? (
               <>
                 <button 

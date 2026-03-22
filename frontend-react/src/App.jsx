@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { CartProvider } from './context/CartContext';
 import { AdminProvider, useAdmin } from './context/AdminContext';
-import { I18nProvider } from './context/I18nContext';
 import { FavoritesProvider } from './context/FavoritesContext';
+import { ConfigProvider, useConfig } from './context/ConfigContext';
+import { ToastProvider } from './components/Toast';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import ProductGrid from './components/ProductGrid';
@@ -12,9 +13,13 @@ import Footer from './components/Footer';
 import AdminOrdersPanel from './components/AdminOrdersPanel';
 import ContactPage from './components/ContactPage';
 import FavoritesPage from './components/FavoritesPage';
+import SeasonalBanner from './components/SeasonalBanner';
 
 function WhatsAppFloat() {
-  const whatsappNumber = "+34645599038";
+  const { config } = useConfig();
+  const whatsappNumber = config.whatsappNumber || '+34645599038';
+  
+  if (!whatsappNumber) return null;
   return (
     <a
       href={`https://wa.me/${whatsappNumber.replace(/\D/g, '')}`}
@@ -32,6 +37,7 @@ function WhatsAppFloat() {
 
 function AppContent() {
   const { isAuthenticated } = useAdmin();
+  const { config } = useConfig();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -46,6 +52,19 @@ function AppContent() {
       .catch(() => setProducts([]));
   }, [refreshKey]);
 
+  useEffect(() => {
+    const ogImage = config.ogImageUrl || 'https://harmony-clay.com/images/logo-og.jpg';
+    const ogUrl = config.ogUrl || 'https://harmony-clay.com';
+    
+    const ogImageMeta = document.querySelector('meta[property="og:image"]');
+    const ogUrlMeta = document.querySelector('meta[property="og:url"]');
+    const twitterImageMeta = document.querySelector('meta[name="twitter:image"]');
+    
+    if (ogImageMeta) ogImageMeta.setAttribute('content', ogImage);
+    if (ogUrlMeta) ogUrlMeta.setAttribute('content', ogUrl);
+    if (twitterImageMeta) twitterImageMeta.setAttribute('content', ogImage);
+  }, [config]);
+
   const handleLoginSuccess = () => {
     setRefreshKey(prev => prev + 1);
   };
@@ -59,6 +78,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen">
+      <SeasonalBanner />
       <Header 
         onLoginSuccess={handleLoginSuccess} 
         onShowOrders={() => setShowOrdersPanel(true)}
@@ -103,15 +123,17 @@ function AppContent() {
 
 function App() {
   return (
-    <I18nProvider>
+    <ConfigProvider>
       <FavoritesProvider>
         <CartProvider>
           <AdminProvider>
-            <AppContent />
+            <ToastProvider>
+              <AppContent />
+            </ToastProvider>
           </AdminProvider>
         </CartProvider>
       </FavoritesProvider>
-    </I18nProvider>
+    </ConfigProvider>
   );
 }
 

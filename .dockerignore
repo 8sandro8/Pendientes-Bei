@@ -1,0 +1,64 @@
+# ===============================================
+# Docker Build Context - Ignore File
+# ===============================================
+# Archivos y carpetas a excluir del build
+# (Reduce tamaño de contexto y mejora seguridad)
+# ===============================================
+
+# Dependencias de Node (se instalarán con npm ci)
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos de Git
+.git
+.gitignore
+.gitattributes
+
+# IDEs y editores
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs locales
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Backups
+backups/
+*.bak
+
+# Scripts de desarrollo local
+scripts/*.sh
+scripts/*.ps1
+scripts/*.js
+
+# Certificados y secrets locales
+*.pem
+*.key
+.certs/
+
+# Archivos de test
+test/
+tests/
+coverage/
+
+# Documentación
+*.md
+!README.md
+
+# Archivos de Synology
+.Atlante/
+.@__thumb/
+
+# npm lock files (usamos package-lock.json, no yarn.lock)
+yarn.lock
+
+# Package files de desarrollo
+package-lock.json

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useI18n } from '../context/I18nContext';
+import { useConfig } from '../context/ConfigContext';
 
 export default function ContactPage({ onClose }) {
-  const { t } = useI18n();
+  const { config } = useConfig();
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
@@ -39,7 +39,7 @@ export default function ContactPage({ onClose }) {
     }
   };
 
-  const whatsappNumber = "34645599038";
+  const whatsappNumber = config.whatsappNumber?.replace(/\D/g, '') || '34645599038';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">

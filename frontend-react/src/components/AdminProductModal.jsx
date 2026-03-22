@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAdmin } from '../context/AdminContext';
+import ImageUploader from './ImageUploader';
 
 export default function AdminProductModal({ product, onClose, onSave }) {
   const { authFetch } = useAdmin();
@@ -19,7 +20,6 @@ export default function AdminProductModal({ product, onClose, onSave }) {
   });
   const [colorsInput, setColorsInput] = useState('');
   const [isSaving, setIsSaving] = useState(false);
-  const [newFoto, setNewFoto] = useState('');
 
   useEffect(() => {
     fetchCategories();
@@ -91,36 +91,14 @@ export default function AdminProductModal({ product, onClose, onSave }) {
     setFormData(prev => ({ ...prev, colors }));
   };
 
-  const handleAddFoto = () => {
-    if (!newFoto.trim()) return;
-    setFormData(prev => ({
-      ...prev,
-      fotos: [...prev.fotos, newFoto.trim()]
-    }));
-    setNewFoto('');
-  };
-
-  const handleRemoveFoto = (index) => {
-    setFormData(prev => ({
-      ...prev,
-      fotos: prev.fotos.filter((_, i) => i !== index)
-    }));
-  };
-
-  const handleSetPrincipal = (foto) => {
-    setFormData(prev => ({
-      ...prev,
-      imagen_principal: foto
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSaving(true);
     
     const dataToSave = {
       ...formData,
-      imagen: formData.imagen_principal || formData.imagen,
+      imagen: formData.fotos?.[0] || formData.imagen_principal || formData.imagen,
+      imagen_principal: formData.imagen_principal || formData.fotos?.[0] || '',
     };
     
     try {
@@ -280,80 +258,32 @@ export default function AdminProductModal({ product, onClose, onSave }) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Imagen Principal
-              </label>
-              <input
-                type="text"
-                name="imagen_principal"
-                value={formData.imagen_principal}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                placeholder="/images/nombre-imagen.jpg"
+              <ImageUploader
+                label="Imagen Principal"
+                maxFiles={1}
+                onUploadComplete={(urls) => {
+                  setFormData(prev => ({
+                    ...prev,
+                    imagen_principal: urls[0] || prev.imagen_principal,
+                  }));
+                }}
+                existingImages={formData.imagen_principal ? [formData.imagen_principal] : []}
               />
-              {formData.imagen_principal && (
-                <div className="mt-2">
-                  <img 
-                    src={formData.imagen_principal} 
-                    alt="Preview" 
-                    className="h-24 w-24 object-cover rounded-lg border-2 border-primary"
-                    onError={(e) => e.target.style.display = 'none'}
-                  />
-                </div>
-              )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Fotos Adicionales (galería)
-              </label>
-              <div className="flex gap-2 mb-2">
-                <input
-                  type="text"
-                  value={newFoto}
-                  onChange={(e) => setNewFoto(e.target.value)}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  placeholder="/images/foto-adicional.jpg"
-                />
-                <button
-                  type="button"
-                  onClick={handleAddFoto}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
-                >
-                  + Añadir
-                </button>
-              </div>
-              
-              {formData.fotos.length > 0 && (
-                <div className="space-y-2">
-                  {formData.fotos.map((foto, index) => (
-                    <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
-                      <img 
-                        src={foto} 
-                        alt={`Foto ${index + 1}`}
-                        className="h-12 w-12 object-cover rounded"
-                        onError={(e) => e.target.style.display = 'none'}
-                      />
-                      <span className="flex-1 text-sm text-gray-600 truncate">{foto}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleSetPrincipal(foto)}
-                        className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
-                        title="Hacer principal"
-                      >
-                        ★ Principal
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveFoto(index)}
-                        className="px-2 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200"
-                      >
-                        X
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <ImageUploader
+                label="Fotos de Galería"
+                maxFiles={10}
+                onUploadComplete={(urls) => {
+                  setFormData(prev => ({
+                    ...prev,
+                    fotos: urls,
+                    imagen_principal: prev.imagen_principal || urls[0] || '',
+                  }));
+                }}
+                existingImages={formData.fotos || []}
+              />
             </div>
 
             <div className="flex gap-3 pt-4">

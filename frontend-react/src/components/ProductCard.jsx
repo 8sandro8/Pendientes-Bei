@@ -10,6 +10,9 @@ export default function ProductCard({ product, onOpenModal, isAdmin, onEdit, onD
   const isAvailable = (product.stock || 0) > 0;
   const fotoPrincipal = product.imagen_principal || product.imagen || '/images/placeholder.jpg';
   const isFav = isFavorite(product.id);
+  
+  const productDate = parseInt(product.id) || product.createdAt;
+  const isNew = productDate && (Date.now() - productDate) < 7 * 24 * 60 * 60 * 1000;
 
   const handleEditClick = (e) => {
     e.stopPropagation();
@@ -28,7 +31,7 @@ export default function ProductCard({ product, onOpenModal, isAdmin, onEdit, onD
 
   return (
     <div 
-      className="group cursor-pointer bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 relative"
+      className="group cursor-pointer bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl hover:scale-105 hover:z-10 transition-all duration-300 relative"
       onClick={() => onOpenModal && onOpenModal(product)}
     >
       {isAdmin && (
@@ -78,10 +81,22 @@ export default function ProductCard({ product, onOpenModal, isAdmin, onEdit, onD
         
         {!isAvailable && (
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <span className="bg-error text-white px-4 py-2 rounded-full text-sm font-semibold">
+            <span className="bg-gray-800 text-white px-4 py-2 rounded-full text-sm font-semibold">
               Agotado
             </span>
           </div>
+        )}
+
+        {isNew && (
+          <span className="absolute top-2 left-2 bg-accent text-white text-xs font-bold px-2 py-1 rounded-full z-10">
+            Nuevo
+          </span>
+        )}
+
+        {product.stock <= 2 && product.stock > 0 && !isAdmin && (
+          <span className="absolute bottom-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
+            ¡Solo {product.stock}!
+          </span>
         )}
       </div>
 

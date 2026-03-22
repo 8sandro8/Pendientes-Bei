@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
+import useToast from '../hooks/useToast';
 
 export default function ProductModal({ product, onClose, relatedProducts = [], onSelectProduct }) {
   const { addToCart } = useCart();
+  const { addToast } = useToast();
   const [selectedColor, setSelectedColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
@@ -32,6 +34,7 @@ export default function ProductModal({ product, onClose, relatedProducts = [], o
 
   const handleAdd = () => {
     addToCart(product, selectedColor, quantity);
+    addToast('✓ Añadido al carrito', 'success');
     setAdded(true);
     setTimeout(() => {
       onClose();
@@ -175,7 +178,7 @@ export default function ProductModal({ product, onClose, relatedProducts = [], o
                 <button
                   onClick={handleAdd}
                   disabled={added}
-                  className={`mt-6 w-full py-3 rounded-full font-semibold transition-all ${
+                  className={`mt-6 w-full py-3 rounded-full font-semibold transition-all hover:opacity-90 transition-colors ${
                     added
                       ? 'bg-success text-white'
                       : 'bg-primary text-white hover:bg-accent'

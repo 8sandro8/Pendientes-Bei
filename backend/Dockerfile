@@ -1,23 +1,57 @@
-# Usamos una imagen ligera de Node.js
-FROM node:18-alpine
+# ===============================================
+# Harmony Clay - Multi-stage Docker Build
+# Stage 1: Build frontend (Node 20 - Vite 8 requirement)
+# ===============================================
+FROM node:20-alpine AS frontend-builder
 
-# Directorio de trabajo dentro del contenedor
+WORKDIR /build/frontend
+
+# Copiar solo lo necesario para el build
+COPY frontend-react/package*.json ./
+COPY frontend-react/vite.config.js ./
+COPY frontend-react/index.html ./
+COPY frontend-react/postcss.config.js ./
+COPY frontend-react/tailwind.config.js ./
+COPY frontend-react/src/ ./src/
+COPY frontend-react/public/ ./public/
+
+# Instalar deps y build
+RUN npm ci && npm run build
+
+# ===============================================
+# Stage 2: Backend production
+# ===============================================
+FROM node:20-alpine
+
+LABEL maintainer="Harmony Clay"
+LABEL description="Backend API para Harmony Clay"
+
+ENV NODE_ENV=production
+ENV PORT=3001
+
 WORKDIR /app
 
-# Copiamos package.json y package-lock.json primero (para aprovechar caché de Docker)
-COPY package*.json ./
+# --- Backend ---
+COPY backend/package*.json ./
+RUN npm ci --only=production && npm cache clean --force
 
-# Instalamos dependencias
-RUN npm install
+COPY backend/index.js ./
+COPY backend/data/ ./data/
 
-# Copiamos el resto del código
-COPY . .
+# --- Frontend (from stage 1) ---
+COPY --from=frontend-builder /build/frontend/dist ./frontend-react/dist/
+COPY --from=frontend-builder /build/frontend/public ./frontend-react/public/
 
-# Exponemos el puerto que usa la app
-EXPOSE 3000
+# Crear directorios
+RUN mkdir -p /app/logs /app/frontend-react/dist/images && \
+    chown -R node:node /app && \
+    chmod -R 755 /app
 
-# Creamos directorios para persistencia si no existen
-RUN mkdir -p public/images
+USER node
 
-# Comando para iniciar la aplicación
+EXPOSE 3001
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:3001/api/pendientes || exit 1
+
 CMD ["node", "index.js"]

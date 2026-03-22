@@ -5,6 +5,8 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const fsOriginal = require('fs');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const app = express();
@@ -14,12 +16,47 @@ const morgan = require('morgan');
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "blob:"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'", "data:"],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'self'"],
+      frameSrc: ["'none'"],
+      workerSrc: ["'self'", "blob:"],
+    }
+  },
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
+
+const generalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,  // 15 minutos
+  max: 2000,                   // 2000 peticiones por ventana (solo APIs)
+  message: 'Demasiadas peticiones, intenta más tarde'
+});
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: 'Demasiados intentos de login'
+});
+
+// Rate limiter SOLO para rutas API - assets estáticos sin límite
+app.use('/api/', generalLimiter);
 
 // --- CONFIGURATION ---
 
 
 const SECRET_KEY = process.env.SECRET_KEY || 'tu_clave_secreta_aqui';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const WHATSAPP_NUMBER = process.env.WHATSAPP_NUMBER || '+34645599038';
+
 if (!ADMIN_PASSWORD) {
   console.error('[CRITICAL] ADMIN_PASSWORD is missing in .env');
   process.exit(1);
@@ -321,6 +358,7 @@ function generateRequestHTMLEmail(req) {
 // ... existing queue logic helpers ...
 
 app.use(express.static(frontendPath));
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 // --- QUEUE LOGIC ---
 
@@ -454,6 +492,67 @@ async function writeJSON(file, data) {
   await fs.writeFile(file, JSON.stringify(data, null, 2));
 }
 
+// --- MULTER CONFIGURATION ---
+const imagesUploadDir = path.join(__dirname, 'public/images');
+if (!fsOriginal.existsSync(imagesUploadDir)) {
+  fsOriginal.mkdirSync(imagesUploadDir, { recursive: true });
+}
+
+const imageStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, imagesUploadDir),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, `${Date.now()}-${Math.random().toString(36).substr(2, 8)}${ext}`);
+  }
+});
+
+const imageFileFilter = (req, file, cb) => {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+  if (allowedTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Solo se permiten archivos de imagen (jpeg, png, webp, gif)'), false);
+  }
+};
+
+const uploadImages = multer({
+  storage: imageStorage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: imageFileFilter
+});
+
+async function deleteProductImages(product) {
+  if (!product) return;
+  const imagesToDelete = [
+    product.imagen_principal,
+    product.imagen,
+    ...(product.fotos || [])
+  ].filter(Boolean);
+
+  for (const imgPath of imagesToDelete) {
+    const normalizedPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath;
+    const fullPath = path.join(__dirname, normalizedPath);
+    try {
+      if (fsOriginal.existsSync(fullPath)) {
+        await fs.unlink(fullPath);
+        console.log(`[CLEANUP] Deleted image: ${fullPath}`);
+      }
+    } catch (e) {
+      console.error(`[CLEANUP] Failed to delete image: ${imgPath}`, e);
+    }
+  }
+}
+
+async function deleteImageFile(filename) {
+  const decodedFilename = decodeURIComponent(filename);
+  const fullPath = path.join(imagesUploadDir, decodedFilename);
+  if (fsOriginal.existsSync(fullPath)) {
+    await fs.unlink(fullPath);
+    return true;
+  }
+  return false;
+}
+
 // --- AUTH MIDDLEWARE ---
 function verifyToken(req, res, next) {
   const bearerHeader = req.headers['authorization'];
@@ -475,10 +574,128 @@ function verifyToken(req, res, next) {
   }
 }
 
+// --- VALIDATION HELPERS ---
+
+function sanitizeString(str) {
+  if (typeof str !== 'string') return str;
+  return str.trim().replace(/[<>\"\'\\;]/g, '');
+}
+
+function isValidEmail(email) {
+  if (typeof email !== 'string') return false;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email.trim());
+}
+
+function isPositiveNumber(value) {
+  return typeof value === 'number' && !isNaN(value) && isFinite(value);
+}
+
+function validateOrder(body) {
+  const errors = [];
+
+  if (!body.customer || typeof body.customer !== 'object') {
+    errors.push('customer es requerido y debe ser un objeto');
+  } else {
+    if (!body.customer.email || !isValidEmail(body.customer.email)) {
+      errors.push('customer.email es requerido y debe ser un email válido');
+    }
+  }
+
+  if (!Array.isArray(body.items)) {
+    errors.push('items es requerido y debe ser un array');
+  } else if (body.items.length === 0) {
+    errors.push('items debe contener al menos un producto');
+  } else {
+    body.items.forEach((item, index) => {
+      if (!item.nombre || typeof item.nombre !== 'string') {
+        errors.push(`items[${index}].nombre es requerido`);
+      }
+      if (item.qty === undefined || !Number.isInteger(item.qty) || item.qty < 1) {
+        errors.push(`items[${index}].qty debe ser un entero >= 1`);
+      }
+      if (item.precio === undefined || !isPositiveNumber(item.precio)) {
+        errors.push(`items[${index}].precio debe ser un número positivo`);
+      }
+    });
+  }
+
+  return errors;
+}
+
+function validateProduct(body, isUpdate = false) {
+  const errors = [];
+
+  if (!isUpdate) {
+    if (!body.nombre || typeof body.nombre !== 'string' || body.nombre.trim() === '') {
+      errors.push('nombre es requerido y debe ser un string no vacío');
+    }
+  } else if (body.nombre !== undefined) {
+    if (typeof body.nombre !== 'string' || body.nombre.trim() === '') {
+      errors.push('nombre debe ser un string no vacío');
+    }
+  }
+
+  if (body.precio !== undefined) {
+    if (!isPositiveNumber(body.precio)) {
+      errors.push('precio debe ser un número positivo');
+    }
+  }
+
+  if (body.stock !== undefined) {
+    if (typeof body.stock !== 'number' || !Number.isInteger(body.stock) || body.stock < 0) {
+      errors.push('stock debe ser un entero >= 0');
+    }
+  }
+
+  return errors;
+}
+
+// --- IMAGE UPLOAD ---
+app.post('/api/upload', verifyToken, (req, res, next) => {
+  uploadImages.array('files[]', 10)(req, res, (err) => {
+    if (err) {
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        return res.status(400).json({ message: 'El archivo excede el límite de 5MB' });
+      }
+      if (err.message && err.message.includes('Solo se permiten')) {
+        return res.status(400).json({ message: err.message });
+      }
+      return res.status(400).json({ message: 'Error al procesar la subida', error: err.message });
+    }
+    next();
+  });
+}, (req, res) => {
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).json({ message: 'No se proporcionaron archivos' });
+  }
+  const uploaded = req.files.map(f => ({
+    url: `/images/${f.filename}`,
+    filename: f.filename,
+    originalName: f.originalname
+  }));
+  res.json(uploaded);
+});
+
+app.delete('/api/images/:filename', verifyToken, async (req, res) => {
+  try {
+    const { filename } = req.params;
+    const deleted = await deleteImageFile(filename);
+    if (deleted) {
+      res.json({ message: 'Imagen eliminada' });
+    } else {
+      res.status(404).json({ message: 'Imagen no encontrada' });
+    }
+  } catch (err) {
+    console.error('[DELETE-IMAGE] Error:', err);
+    res.status(500).json({ message: 'Error al eliminar imagen' });
+  }
+});
+
 // --- ROUTES ---
 
 // LOGIN
-app.post('/api/login', (req, res) => {
+app.post('/api/login', authLimiter, (req, res) => {
   const { password } = req.body;
 
   if (password === ADMIN_PASSWORD) {
@@ -511,14 +728,27 @@ app.get('/api/pendientes', async (req, res) => {
 // CREATE PRODUCT (JSON)
 app.post('/api/pendientes', verifyToken, async (req, res) => {
   try {
+    const validationErrors = validateProduct(req.body, false);
+    if (validationErrors.length > 0) {
+      return res.status(400).json({ 
+        message: 'Error de validación',
+        errors: validationErrors 
+      });
+    }
+
     const products = await readJSON(PRODUCTS_FILE);
+    
     const newProduct = { 
       id: Date.now(), 
-      ...req.body,
+      nombre: sanitizeString(req.body.nombre),
+      descripcion: sanitizeString(req.body.descripcion) || '',
+      precio: Number(req.body.precio) || 0,
+      stock: Number(req.body.stock) || 0,
+      categoria: sanitizeString(req.body.categoria) || '',
+      colores: Array.isArray(req.body.colores) ? req.body.colores.map(c => sanitizeString(c)) : [],
       imagen_principal: req.body.imagen_principal || req.body.imagen,
       fotos: req.body.fotos || req.body.photos || []
     };
-    if (!newProduct.stock) newProduct.stock = 0;
 
     products.push(newProduct);
     await writeJSON(PRODUCTS_FILE, products);
@@ -531,17 +761,34 @@ app.post('/api/pendientes', verifyToken, async (req, res) => {
 // UPDATE PRODUCT (JSON)
 app.put('/api/pendientes/:id', verifyToken, async (req, res) => {
   try {
+    const validationErrors = validateProduct(req.body, true);
+    if (validationErrors.length > 0) {
+      return res.status(400).json({ 
+        message: 'Error de validación',
+        errors: validationErrors 
+      });
+    }
+
     const { id } = req.params;
     let products = await readJSON(PRODUCTS_FILE);
     const index = products.findIndex(p => String(p.id) === id);
 
     if (index !== -1) {
+      const updateData = { ...req.body };
+      
+      if (updateData.nombre !== undefined) updateData.nombre = sanitizeString(updateData.nombre);
+      if (updateData.descripcion !== undefined) updateData.descripcion = sanitizeString(updateData.descripcion);
+      if (updateData.precio !== undefined) updateData.precio = Number(updateData.precio);
+      if (updateData.stock !== undefined) updateData.stock = Number(updateData.stock);
+      if (updateData.categoria !== undefined) updateData.categoria = sanitizeString(updateData.categoria);
+      if (Array.isArray(updateData.colores)) updateData.colores = updateData.colores.map(c => sanitizeString(c));
+      
       products[index] = { 
         ...products[index], 
-        ...req.body, 
+        ...updateData, 
         id: products[index].id,
-        imagen_principal: req.body.imagen_principal || req.body.imagen,
-        fotos: req.body.fotos || req.body.photos || []
+        imagen_principal: updateData.imagen_principal || updateData.imagen,
+        fotos: updateData.fotos || updateData.photos || []
       };
       await writeJSON(PRODUCTS_FILE, products);
       res.json(products[index]);
@@ -558,6 +805,10 @@ app.delete('/api/pendientes/:id', verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
     let products = await readJSON(PRODUCTS_FILE);
+    const productToDelete = products.find(p => String(p.id) === id);
+    if (productToDelete) {
+      await deleteProductImages(productToDelete);
+    }
     const initialLen = products.length;
     products = products.filter(p => String(p.id) !== id);
 
@@ -658,18 +909,43 @@ app.get('/api/orders', async (req, res) => {
 // CREATE ORDER
 app.post('/api/orders', async (req, res) => {
   try {
+    const validationErrors = validateOrder(req.body);
+    if (validationErrors.length > 0) {
+      return res.status(400).json({ 
+        message: 'Error de validación',
+        errors: validationErrors 
+      });
+    }
+
     const orders = await readJSON(ORDERS_FILE);
     
+    const sanitizedCustomer = {
+      nombre: sanitizeString(req.body.customer.nombre),
+      apellidos: sanitizeString(req.body.customer.apellidos) || '',
+      email: req.body.customer.email.trim().toLowerCase(),
+      telefono: sanitizeString(req.body.customer.telefono) || '',
+      direccion: sanitizeString(req.body.customer.direccion) || ''
+    };
+
+    const sanitizedItems = req.body.items.map(item => ({
+      id: item.id,
+      nombre: sanitizeString(item.nombre),
+      qty: item.qty,
+      precio: item.precio,
+      color: sanitizeString(item.color) || item.color,
+      imagen: item.imagen
+    }));
+
     const newOrder = {
       id: Date.now().toString(),
       date: new Date().toISOString(),
       status: 'Pendiente',
-      items: req.body.items || [],
-      customer: req.body.customer || {},
-      shippingMethod: req.body.shippingMethod || 'recogida',
-      shippingCost: req.body.shippingCost || 0,
-      subtotal: req.body.subtotal || 0,
-      total: req.body.total || 0
+      items: sanitizedItems,
+      customer: sanitizedCustomer,
+      shippingMethod: sanitizeString(req.body.shippingMethod) || 'recogida',
+      shippingCost: Number(req.body.shippingCost) || 0,
+      subtotal: Number(req.body.subtotal) || 0,
+      total: Number(req.body.total) || 0
     };
     
     orders.push(newOrder);
@@ -946,67 +1222,13 @@ app.post('/api/test-email', verifyToken, async (req, res) => {
   }
 });
 
-// MULTI-IDIDIOMA - Traducciones
-const I18N_FILE = path.join(__dirname, 'data/i18n/config.json');
-
-// Cargar config de idioma
-async function loadI18nConfig() {
-  try {
-    const configPath = path.join(__dirname, 'data/i18n/config.json');
-    if (fsOriginal.existsSync(configPath)) {
-      return await readJSON(configPath);
-    }
-    return { idioma: 'es', disponibles: ['es', 'en', 'ca'] };
-  } catch (e) {
-    return { idioma: 'es', disponibles: ['es', 'en', 'ca'] };
-  }
-}
-
-// GET traducciones
-app.get('/api/i18n/:idioma', async (req, res) => {
-  try {
-    const { idioma } = req.params;
-    const validIds = ['es', 'en', 'ca'];
-    if (!validIds.includes(idioma)) {
-      return res.status(400).json({ message: 'Idioma no válido' });
-    }
-    const i18nPath = path.join(__dirname, `data/i18n/${idioma}.json`);
-    if (fsOriginal.existsSync(i18nPath)) {
-      const translations = await readJSON(i18nPath);
-      res.json(translations);
-    } else {
-      res.status(404).json({ message: 'Traducciones no encontradas' });
-    }
-  } catch (err) {
-    res.status(500).json({ message: 'Error cargando traducciones' });
-  }
-});
-
-// GET idioma actual
-app.get('/api/i18n', async (req, res) => {
-  try {
-    const config = await loadI18nConfig();
-    res.json(config);
-  } catch (err) {
-    res.status(500).json({ message: 'Error cargando configuración' });
-  }
-});
-
-// PUT cambiar idioma
-app.put('/api/i18n', verifyToken, async (req, res) => {
-  try {
-    const { idioma } = req.body;
-    const validIds = ['es', 'en', 'ca'];
-    if (!validIds.includes(idioma)) {
-      return res.status(400).json({ message: 'Idioma no válido' });
-    }
-    const configPath = path.join(__dirname, 'data/i18n/config.json');
-    const config = { idioma, disponibles: ['es', 'en', 'ca'] };
-    await writeJSON(configPath, config);
-    res.json(config);
-  } catch (err) {
-    res.status(500).json({ message: 'Error guardando configuración' });
-  }
+// GET app config (public)
+app.get('/api/config', (req, res) => {
+  res.json({
+    whatsappNumber: WHATSAPP_NUMBER,
+    ogImageUrl: process.env.OG_IMAGE_URL || 'https://harmony-clay.com/images/logo-og.jpg',
+    ogUrl: process.env.OG_URL || 'https://harmony-clay.com'
+  });
 });
 
 // START SERVER

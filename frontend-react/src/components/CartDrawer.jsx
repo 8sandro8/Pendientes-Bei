@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import TrustBadges from './TrustBadges';
 
 const SHIPPING_COST = 4;
 const FREE_SHIPPING_THRESHOLD = 30;
@@ -373,6 +374,9 @@ export default function CartDrawer() {
 
         {items.length > 0 && (
           <div className="p-4 border-t bg-gray-50">
+            <div className="mb-4">
+              <TrustBadges />
+            </div>
             {totalPrice < FREE_SHIPPING_THRESHOLD && (
               <div className="bg-accent/10 text-accent text-sm p-2 rounded-lg mb-3 text-center">
                 ¡Envío gratis a partir de {FREE_SHIPPING_THRESHOLD}€! <br/>

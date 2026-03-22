@@ -1,0 +1,72 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: pendientes-bei-app
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - SECRET_KEY=${SECRET_KEY}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASS=${EMAIL_PASS}
+    volumes:
+      - ./backend/data:/app/data:rw
+      - ./backend/logs:/app/logs:rw
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api/pendientes"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - harmony-network
+
+  db:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: pendientes-bei-db
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=harmonyclay
+      - MYSQL_USER=harmonyclay
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - mariadb-data:/config/databases:rw
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - harmony-network
+
+  tunnel:
+    image: crazymax/cloudflared:latest
+    container_name: pendientes-bei-tunnel
+    restart: unless-stopped
+    command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    ports:
+      - "5053:5053/udp"
+      - "49312:49312"
+    networks:
+      - harmony-network
+    depends_on:
+      app:
+        condition: service_healthy
+
+networks:
+  harmony-network:
+    driver: bridge
+
+volumes:
+  mariadb-data:
+    name: pendientes-bei-mariadb-data
