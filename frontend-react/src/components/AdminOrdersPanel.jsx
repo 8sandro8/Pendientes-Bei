@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useAdmin } from '../context/AdminContext';
+import { useToast } from './Toast';
 
 const STATUS_OPTIONS = ['Pendiente', 'En Preparación', 'Enviado', 'Entregado', 'Cancelado'];
 
 export default function AdminOrdersPanel({ onClose }) {
-  const { authFetch } = useAdmin();
+  const { authFetch, handleApiError } = useAdmin();
+  const { addToast } = useToast();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -44,6 +46,8 @@ export default function AdminOrdersPanel({ onClose }) {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
+      console.log('[updateOrderStatus] orderId:', orderId, '-> newStatus:', newStatus);
+      
       const res = await authFetch(`/api/orders/${orderId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -51,15 +55,26 @@ export default function AdminOrdersPanel({ onClose }) {
       });
 
       if (res.ok) {
+        const data = await res.json().catch(() => ({}));
+        console.log('[updateOrderStatus] Success, response:', data);
+        
+        // Actualizar lista de pedidos - normalizar ids a string para comparación
+        const updatedStatus = data?.status || newStatus;
         setOrders(prev => prev.map(o => 
-          String(o.id) === String(orderId) ? { ...o, status: newStatus } : o
+          String(o.id) === String(orderId) ? { ...o, status: updatedStatus } : o
         ));
+        // Actualizar pedido seleccionado
         if (selectedOrder && String(selectedOrder.id) === String(orderId)) {
-          setSelectedOrder(prev => ({ ...prev, status: newStatus }));
+          setSelectedOrder(prev => ({ ...prev, status: updatedStatus }));
         }
+        addToast('Estado actualizado correctamente', 'success');
+      } else {
+        console.error('[updateOrderStatus] Error response:', res.status);
+        await handleApiError(res, 'Error al actualizar estado');
       }
     } catch (err) {
-      alert('Error al actualizar estado');
+      console.error('[updateOrderStatus] Exception:', err);
+      await handleApiError(err, 'Error al actualizar estado');
     }
   };
 
@@ -76,9 +91,12 @@ export default function AdminOrdersPanel({ onClose }) {
         if (selectedOrder && String(selectedOrder.id) === String(orderId)) {
           setSelectedOrder(null);
         }
+        addToast('Pedido eliminado', 'success');
+      } else {
+        await handleApiError(res, 'Error al eliminar pedido');
       }
     } catch (err) {
-      alert('Error al eliminar pedido');
+      await handleApiError(err, 'Error al eliminar pedido');
     }
   };
 
@@ -251,7 +269,7 @@ export default function AdminOrdersPanel({ onClose }) {
                   <div className="space-y-2">
                     {selectedOrder.items?.map((item, idx) => (
                       <div key={idx} className="flex items-center gap-3 bg-gray-50 p-2 rounded-lg">
-                        <img src={item.imagen} alt={item.nombre} className="w-12 h-12 object-cover rounded" />
+                        <img src={item.imagen} alt={item.nombre} className="w-12 h-12 object-cover rounded" onError={(e) => { e.target.src = '/images/logo-harmony.jpg'; }} />
                         <div className="flex-1">
                           <p className="font-medium text-sm">{item.nombre}</p>
                           <p className="text-xs text-gray-500">{item.qty} x {item.precio}€</p>
